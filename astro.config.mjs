@@ -42,9 +42,16 @@ export default defineConfig({
       },
       social: [
         { icon: 'github', label: 'GitHub', href: 'https://github.com/ivRooom' },
-        { icon: 'discord', label: 'Discord', href: 'https://ivrm.jp' },
+        { icon: 'discord', label: 'Discord', href: 'https://discord.gg/RqUEyS3FdB' },
       ],
-      customCss: ['./src/styles/custom.css', './src/styles/home-search.css'],
+      customCss: [
+        './src/styles/custom.css',
+        './src/styles/home-search.css',
+        './src/styles/help-experience.css',
+      ],
+      components: {
+        Footer: './src/components/CustomFooter.astro',
+      },
       pagefind: true,
       head: [
         {
@@ -114,6 +121,7 @@ export default defineConfig({
           label: 'サポート',
           translations: { en: 'Support' },
           items: [
+            { slug: 'support/assistant' },
             { slug: 'support/faq' },
             { slug: 'support/report-a-problem' },
           ],
