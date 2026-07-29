@@ -32,7 +32,7 @@ jobs:
           cache: npm
 
       - name: Pagesを設定
-        uses: actions/configure-pages@v5
+        uses: actions/configure-pages@v6
 
       - name: 依存関係をインストール
         run: npm install
