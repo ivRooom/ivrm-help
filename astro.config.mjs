@@ -44,7 +44,7 @@ export default defineConfig({
         { icon: 'github', label: 'GitHub', href: 'https://github.com/ivRooom' },
         { icon: 'discord', label: 'Discord', href: 'https://ivrm.jp' },
       ],
-      customCss: ['./src/styles/custom.css'],
+      customCss: ['./src/styles/custom.css', './src/styles/home-search.css'],
       pagefind: true,
       head: [
         {
