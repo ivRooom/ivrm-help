@@ -2,41 +2,9 @@
 title: IVRM Help Center
 description: Guides for the ivRooom community.
 template: splash
-hero:
-  title: Find answers for IVRM in one place.
-  tagline: Learn how to join the Minecraft servers, review community rules, use Discord, and resolve common issues.
-  actions:
-    - text: Join the Minecraft server
-      link: ./minecraft/how-to-join/
-      icon: right-arrow
-      variant: primary
-    - text: Read the rules
-      link: ./minecraft/rules/
-      icon: open-book
-      variant: minimal
+tableOfContents: false
 ---
 
-import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
+import HomeLanding from '../../../components/HomeLanding.astro';
 
-## What are you looking for?
-
-<CardGrid>
-  <Card title="Minecraft Server" icon="seti:minecraft">
-    Follow the steps from preparation through your first connection.
-  </Card>
-  <Card title="Community Rules" icon="approve-check">
-    Review the basic rules and prohibited activities for safe play.
-  </Card>
-  <Card title="Troubleshooting" icon="information">
-    Find checks for connection, startup, and performance problems.
-  </Card>
-  <Card title="Discord Guide" icon="comment">
-    Learn how channels, roles, and support requests work.
-  </Card>
-</CardGrid>
-
-## Frequently used pages
-
-<LinkCard title="How to Join" description="From application to connecting in-game" href="./minecraft/how-to-join/" />
-<LinkCard title="Minecraft Troubleshooting" description="Find solutions by symptom" href="./minecraft/troubleshooting/" />
-<LinkCard title="Report a Problem" description="Required information and report template" href="./support/report-a-problem/" />
+<HomeLanding lang="en" />
