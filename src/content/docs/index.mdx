@@ -1,0 +1,42 @@
+---
+title: IVRM Help Center
+description: ivRooomコミュニティで迷わないためのガイドです。
+template: splash
+hero:
+  title: IVRMで困ったとき、ここを見れば分かる。
+  tagline: Minecraft生活鯖への参加方法、コミュニティルール、Discordの使い方、トラブル解決をひとつにまとめています。
+  actions:
+    - text: Minecraft生活鯖に参加する
+      link: /minecraft/how-to-join/
+      icon: right-arrow
+      variant: primary
+    - text: ルールを確認する
+      link: /minecraft/rules/
+      icon: open-book
+      variant: minimal
+---
+
+import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
+
+## 何を探していますか？
+
+<CardGrid>
+  <Card title="Minecraft生活鯖" icon="seti:minecraft">
+    初めて参加する人向けに、準備から接続までを順番に案内します。
+  </Card>
+  <Card title="コミュニティルール" icon="approve-check">
+    安心して遊ぶための基本ルールと禁止事項を確認できます。
+  </Card>
+  <Card title="トラブル解決" icon="information">
+    接続できない、起動しない、動作が重いときの確認方法をまとめています。
+  </Card>
+  <Card title="Discordガイド" icon="comment">
+    チャンネルやロールの役割、問い合わせ方法を案内します。
+  </Card>
+</CardGrid>
+
+## よく使うページ
+
+<LinkCard title="生活鯖への入り方" description="参加申請からゲームへの接続まで" href="/minecraft/how-to-join/" />
+<LinkCard title="Minecraftトラブルシューティング" description="症状から解決方法を探す" href="/minecraft/troubleshooting/" />
+<LinkCard title="問題を報告する" description="必要な情報と報告テンプレート" href="/support/report-a-problem/" />
