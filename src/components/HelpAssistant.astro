@@ -1,0 +1,385 @@
+---
+import { withBasePath } from '../lib/base-path';
+
+interface Props {
+  lang?: 'ja' | 'en';
+  compact?: boolean;
+}
+
+const { lang = 'ja', compact = false } = Astro.props;
+const isEnglish = lang === 'en';
+const pagefindUrl = withBasePath('pagefind/pagefind.js');
+
+const copy = isEnglish
+  ? {
+      badge: 'Meaning search · Beta',
+      title: 'Ask IVRM Help',
+      description: 'Describe the problem in your own words. We will search the help articles and show the most relevant sources.',
+      assistantName: 'IVRM Guide Bot',
+      initialMessage: 'Hi! Tell me what is happening. I will look for answers only inside the IVRM Help Center.',
+      placeholder: 'Example: I cannot connect to the ATM10 server',
+      send: 'Search',
+      searching: 'Searching the help articles…',
+      resultIntro: 'I found some guides that may help.',
+      noResults: 'I could not find a close match. Try rephrasing the question, or contact the IVRM team.',
+      error: 'Search is temporarily unavailable. You can still use the contact form or Discord.',
+      sourceLabel: 'Help Center source',
+      openLabel: 'Open guide',
+      quickLabel: 'Popular questions',
+      grounded: 'Results are limited to published Help Center articles.',
+      contact: 'Contact form',
+      discord: 'Ask on Discord',
+      quickQuestions: [
+        'How do I join the Minecraft server?',
+        'I cannot connect to ATM10',
+        'Where should I ask questions on Discord?',
+        'What are the community rules?',
+      ],
+    }
+  : {
+      badge: '意味検索・ベータ',
+      title: 'IVRMヘルプに相談',
+      description: '困っていることを普段の言葉で入力してください。ヘルプ記事の中から意味が近い情報を探して、根拠ページと一緒に案内します。',
+      assistantName: 'IVRMガイドBot',
+      initialMessage: 'こんにちは！困っていることをそのまま教えてください。IVRM Help Center内の記事だけを使って候補を探します。',
+      placeholder: '例：ATM10サーバーに接続できない',
+      send: '探す',
+      searching: 'ヘルプ記事を探しています…',
+      resultIntro: '役立ちそうなガイドが見つかりました。',
+      noResults: '近い記事を見つけられませんでした。言い方を変えて試すか、運営へお問い合わせください。',
+      error: '現在検索を利用できません。お問い合わせフォームまたはDiscordをご利用ください。',
+      sourceLabel: 'Help Centerの根拠',
+      openLabel: 'ガイドを開く',
+      quickLabel: 'よくある相談',
+      grounded: '公開済みのHelp Center記事だけを検索して表示します。',
+      contact: 'お問い合わせフォーム',
+      discord: 'Discordで質問する',
+      quickQuestions: [
+        'Minecraft生活鯖への入り方を知りたい',
+        'ATM10サーバーに接続できない',
+        'Discordではどこで質問すればいい？',
+        'コミュニティルールを確認したい',
+      ],
+    };
+
+const clientCopy = {
+  assistantName: copy.assistantName,
+  searching: copy.searching,
+  resultIntro: copy.resultIntro,
+  noResults: copy.noResults,
+  error: copy.error,
+  sourceLabel: copy.sourceLabel,
+  openLabel: copy.openLabel,
+  contact: copy.contact,
+  discord: copy.discord,
+};
+
+const intents = isEnglish
+  ? [
+      { keywords: ['join', 'connect', 'address', 'whitelist', 'server'], terms: ['Minecraft join connection whitelist server address'] },
+      { keywords: ['atm10', 'gtnh', 'mod', 'modpack', 'mode'], terms: ['ATM10 GTNH game modes modpack setup'] },
+      { keywords: ['discord', 'channel', 'role'], terms: ['Discord join channels roles support'] },
+      { keywords: ['rule', 'ban', 'allowed', 'prohibited'], terms: ['community rules prohibited activities'] },
+      { keywords: ['error', 'crash', 'slow', 'lag', 'cannot'], terms: ['troubleshooting startup connection performance error'] },
+      { keywords: ['report', 'contact', 'support'], terms: ['report a problem contact support template'] },
+    ]
+  : [
+      { keywords: ['参加', '入り方', '入れない', '接続', 'アドレス', 'ホワイトリスト', 'サーバー'], terms: ['Minecraft 参加 接続 ホワイトリスト サーバーアドレス'] },
+      { keywords: ['atm10', 'gtnh', 'mod', 'モッド', '工業', 'ゲームモード'], terms: ['ATM10 GTNH ゲームモード Modpack 導入'] },
+      { keywords: ['discord', 'ディスコード', 'チャンネル', 'ロール'], terms: ['Discord 参加 チャンネル ロール 質問'] },
+      { keywords: ['ルール', '禁止', 'ban', '許可'], terms: ['コミュニティルール 禁止事項'] },
+      { keywords: ['エラー', 'クラッシュ', '重い', 'ラグ', '起動しない', 'できない'], terms: ['トラブルシューティング 起動 接続 動作 エラー'] },
+      { keywords: ['報告', '問い合わせ', 'サポート'], terms: ['問題を報告 お問い合わせ サポート テンプレート'] },
+    ];
+---
+
+<section
+  class:list={['ivrm-assistant', compact && 'ivrm-assistant--compact']}
+  data-ivrm-assistant
+  data-locale={lang}
+  data-pagefind-url={pagefindUrl}
+  data-copy={JSON.stringify(clientCopy)}
+  data-intents={JSON.stringify(intents)}
+  aria-labelledby={`ivrm-assistant-title-${lang}`}
+>
+  <div class="ivrm-assistant__orb ivrm-assistant__orb--one" aria-hidden="true"></div>
+  <div class="ivrm-assistant__orb ivrm-assistant__orb--two" aria-hidden="true"></div>
+  <div class="ivrm-assistant__sparkles" aria-hidden="true">
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+  <header class="ivrm-assistant__header">
+    <div class="ivrm-assistant__identity">
+      <span class="ivrm-assistant__avatar" aria-hidden="true">
+        <span class="ivrm-assistant__face"></span>
+      </span>
+      <div>
+        <span class="ivrm-assistant__badge">{copy.badge}</span>
+        <h2 id={`ivrm-assistant-title-${lang}`}>{copy.title}</h2>
+      </div>
+    </div>
+    <p>{copy.description}</p>
+  </header>
+
+  <div class="ivrm-assistant__window">
+    <div class="ivrm-assistant__status">
+      <span class="ivrm-assistant__status-dot" aria-hidden="true"></span>
+      <span>{copy.assistantName}</span>
+      <span class="ivrm-assistant__status-label">Online</span>
+    </div>
+
+    <div class="ivrm-assistant__messages" role="log" aria-live="polite" aria-relevant="additions" data-ivrm-assistant-messages>
+      <article class="ivrm-chat-message ivrm-chat-message--assistant">
+        <span class="ivrm-chat-message__avatar" aria-hidden="true">✦</span>
+        <div class="ivrm-chat-message__bubble">
+          <strong>{copy.assistantName}</strong>
+          <p>{copy.initialMessage}</p>
+        </div>
+      </article>
+    </div>
+
+    <div class="ivrm-assistant__quick">
+      <span>{copy.quickLabel}</span>
+      <div>
+        {copy.quickQuestions.map((question) => (
+          <button type="button" data-ivrm-assistant-question={question}>{question}</button>
+        ))}
+      </div>
+    </div>
+
+    <form class="ivrm-assistant__form" data-ivrm-assistant-form>
+      <label class="sr-only" for={`ivrm-assistant-input-${lang}`}>{copy.placeholder}</label>
+      <div class="ivrm-assistant__input-wrap">
+        <span aria-hidden="true">✦</span>
+        <input
+          id={`ivrm-assistant-input-${lang}`}
+          name="question"
+          type="search"
+          placeholder={copy.placeholder}
+          autocomplete="off"
+          minlength="2"
+          required
+          data-ivrm-assistant-input
+        />
+      </div>
+      <button type="submit">
+        <span>{copy.send}</span>
+        <span aria-hidden="true">↗</span>
+      </button>
+    </form>
+
+    <p class="ivrm-assistant__grounded">
+      <span aria-hidden="true">◈</span>
+      {copy.grounded}
+    </p>
+  </div>
+
+  <noscript>
+    <p class="ivrm-assistant__noscript">
+      <a href="https://ivrm.jp/contact">{copy.contact}</a>
+      <a href="https://discord.gg/RqUEyS3FdB">{copy.discord}</a>
+    </p>
+  </noscript>
+</section>
+
+<script>
+  const stripHtml = (value: string) => {
+    const container = document.createElement('div');
+    container.innerHTML = value;
+    return container.textContent?.trim() || '';
+  };
+
+  const bindAssistant = (root: HTMLElement) => {
+    if (root.dataset.ivrmAssistantBound === 'true') return;
+    root.dataset.ivrmAssistantBound = 'true';
+
+    const form = root.querySelector<HTMLFormElement>('[data-ivrm-assistant-form]');
+    const input = root.querySelector<HTMLInputElement>('[data-ivrm-assistant-input]');
+    const messages = root.querySelector<HTMLElement>('[data-ivrm-assistant-messages]');
+    if (!form || !input || !messages) return;
+
+    const locale = root.dataset.locale === 'en' ? 'en' : 'ja';
+    const pagefindUrl = root.dataset.pagefindUrl || '/pagefind/pagefind.js';
+    const copy = JSON.parse(root.dataset.copy || '{}');
+    const intents = JSON.parse(root.dataset.intents || '[]');
+    let pagefindPromise: Promise<any> | null = null;
+
+    const getPagefind = () => {
+      if (!pagefindPromise) {
+        pagefindPromise = import(pagefindUrl).then(async (pagefind) => {
+          await pagefind.init();
+          return pagefind;
+        });
+      }
+      return pagefindPromise;
+    };
+
+    const scrollToLatest = () => {
+      messages.scrollTo({ top: messages.scrollHeight, behavior: 'smooth' });
+    };
+
+    const addUserMessage = (question: string) => {
+      const article = document.createElement('article');
+      article.className = 'ivrm-chat-message ivrm-chat-message--user';
+      const bubble = document.createElement('div');
+      bubble.className = 'ivrm-chat-message__bubble';
+      const paragraph = document.createElement('p');
+      paragraph.textContent = question;
+      bubble.append(paragraph);
+      article.append(bubble);
+      messages.append(article);
+      scrollToLatest();
+    };
+
+    const addTyping = () => {
+      const article = document.createElement('article');
+      article.className = 'ivrm-chat-message ivrm-chat-message--assistant ivrm-chat-message--typing';
+      article.dataset.ivrmTyping = 'true';
+      article.innerHTML = '<span class="ivrm-chat-message__avatar" aria-hidden="true">✦</span><div class="ivrm-chat-message__bubble"><span class="ivrm-typing-dots" aria-hidden="true"><i></i><i></i><i></i></span></div>';
+      article.setAttribute('aria-label', copy.searching);
+      messages.append(article);
+      scrollToLatest();
+      return article;
+    };
+
+    const addFallbackLinks = (container: HTMLElement) => {
+      const actions = document.createElement('div');
+      actions.className = 'ivrm-assistant__fallback-actions';
+      const contact = document.createElement('a');
+      contact.href = 'https://ivrm.jp/contact';
+      contact.textContent = copy.contact;
+      const discord = document.createElement('a');
+      discord.href = 'https://discord.gg/RqUEyS3FdB';
+      discord.target = '_blank';
+      discord.rel = 'noreferrer';
+      discord.textContent = copy.discord;
+      actions.append(contact, discord);
+      container.append(actions);
+    };
+
+    const addAssistantMessage = (text: string, results: any[] = [], includeFallback = false) => {
+      const article = document.createElement('article');
+      article.className = 'ivrm-chat-message ivrm-chat-message--assistant';
+      const avatar = document.createElement('span');
+      avatar.className = 'ivrm-chat-message__avatar';
+      avatar.setAttribute('aria-hidden', 'true');
+      avatar.textContent = '✦';
+      const bubble = document.createElement('div');
+      bubble.className = 'ivrm-chat-message__bubble';
+      const name = document.createElement('strong');
+      name.textContent = copy.assistantName;
+      const paragraph = document.createElement('p');
+      paragraph.textContent = text;
+      bubble.append(name, paragraph);
+
+      if (results.length > 0) {
+        const list = document.createElement('div');
+        list.className = 'ivrm-assistant-results';
+        for (const result of results) {
+          const link = document.createElement('a');
+          link.className = 'ivrm-assistant-result';
+          link.href = result.url;
+          const source = document.createElement('span');
+          source.className = 'ivrm-assistant-result__source';
+          source.textContent = copy.sourceLabel;
+          const title = document.createElement('strong');
+          title.textContent = result.title;
+          const excerpt = document.createElement('span');
+          excerpt.textContent = result.excerpt;
+          const open = document.createElement('span');
+          open.className = 'ivrm-assistant-result__open';
+          open.textContent = `${copy.openLabel} →`;
+          link.append(source, title, excerpt, open);
+          list.append(link);
+        }
+        bubble.append(list);
+      }
+
+      if (includeFallback) addFallbackLinks(bubble);
+      article.append(avatar, bubble);
+      messages.append(article);
+      scrollToLatest();
+    };
+
+    const expandQuery = (question: string) => {
+      const normalized = question.toLocaleLowerCase(locale === 'ja' ? 'ja-JP' : 'en-US');
+      const expanded = [question];
+      for (const intent of intents) {
+        if (intent.keywords.some((keyword: string) => normalized.includes(keyword.toLocaleLowerCase()))) {
+          expanded.push(...intent.terms);
+        }
+      }
+      return [...new Set(expanded)].join(' ');
+    };
+
+    const isMatchingLocale = (url: string) => {
+      const englishPath = /\/en(?:\/|$)/.test(url);
+      return locale === 'en' ? englishPath : !englishPath;
+    };
+
+    const runSearch = async (question: string) => {
+      addUserMessage(question);
+      const typing = addTyping();
+      form.setAttribute('aria-busy', 'true');
+      input.disabled = true;
+
+      try {
+        const pagefind = await getPagefind();
+        const response = await pagefind.search(expandQuery(question));
+        const candidates = response.results.slice(0, 12);
+        const loaded = await Promise.all(candidates.map((result: any) => result.data()));
+        const results = loaded
+          .filter((result: any) => isMatchingLocale(result.url))
+          .slice(0, 3)
+          .map((result: any) => ({
+            url: result.url,
+            title: result.meta?.title || result.url,
+            excerpt: stripHtml(result.excerpt || result.meta?.description || ''),
+          }));
+
+        typing.remove();
+        if (results.length > 0) {
+          addAssistantMessage(copy.resultIntro, results);
+        } else {
+          addAssistantMessage(copy.noResults, [], true);
+        }
+      } catch (error) {
+        console.error('[ivrm-assistant] search failed', error);
+        typing.remove();
+        addAssistantMessage(copy.error, [], true);
+      } finally {
+        form.removeAttribute('aria-busy');
+        input.disabled = false;
+        input.focus();
+      }
+    };
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const question = input.value.trim();
+      if (question.length < 2) return;
+      input.value = '';
+      void runSearch(question);
+    });
+
+    root.querySelectorAll<HTMLButtonElement>('[data-ivrm-assistant-question]').forEach((button) => {
+      button.addEventListener('click', () => {
+        const question = button.dataset.ivrmAssistantQuestion || button.textContent?.trim() || '';
+        if (!question) return;
+        input.value = question;
+        void runSearch(question);
+      });
+    });
+
+    input.addEventListener('focus', () => {
+      void getPagefind().catch(() => undefined);
+    }, { once: true });
+  };
+
+  const initializeAssistants = () => {
+    document.querySelectorAll<HTMLElement>('[data-ivrm-assistant]').forEach(bindAssistant);
+  };
+
+  document.addEventListener('astro:page-load', initializeAssistants);
+  initializeAssistants();
+</script>
