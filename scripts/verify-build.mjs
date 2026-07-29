@@ -92,6 +92,21 @@ if (!indexHtml.includes(`${deployedPrefix}favicon.svg`)) {
   throw new Error('faviconがデプロイ先のベースパスを参照していません。');
 }
 
+const localizedHomePages = [
+  ['日本語', path.join(dist, 'index.html')],
+  ['英語', path.join(dist, 'en', 'index.html')],
+];
+
+for (const [locale, homePath] of localizedHomePages) {
+  const html = await readFile(homePath, 'utf8');
+  if (!html.includes('data-ivrm-open-search')) {
+    throw new Error(`${locale}トップページに検索導線がありません。`);
+  }
+  if (!html.includes('<site-search')) {
+    throw new Error(`${locale}トップページにStarlight標準検索がありません。`);
+  }
+}
+
 const astroAssetDirectory = path.join(dist, '_astro');
 const assetFiles = await readdir(astroAssetDirectory);
 const cssFiles = assetFiles.filter((fileName) => fileName.endsWith('.css'));
@@ -104,6 +119,9 @@ const cssContents = await Promise.all(
 );
 if (!cssContents.some((content) => content.includes('--sl-color-accent-low'))) {
   throw new Error('カスタムスタイルがビルド済みCSSへ含まれていません。');
+}
+if (!cssContents.some((content) => content.includes('.ivrm-home-search'))) {
+  throw new Error('トップページ検索UIのスタイルがビルド済みCSSへ含まれていません。');
 }
 
 console.log(`生成物の検証に成功しました: ${baseUrl.href}`);
