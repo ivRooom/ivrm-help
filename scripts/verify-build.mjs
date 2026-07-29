@@ -47,6 +47,8 @@ const requiredUrls = [
   new URL('en/', baseUrl).href,
   new URL('minecraft/how-to-join/', baseUrl).href,
   new URL('en/minecraft/how-to-join/', baseUrl).href,
+  new URL('support/assistant/', baseUrl).href,
+  new URL('en/support/assistant/', baseUrl).href,
 ];
 
 for (const url of requiredUrls) {
@@ -105,6 +107,41 @@ for (const [locale, homePath] of localizedHomePages) {
   if (!html.includes('<site-search')) {
     throw new Error(`${locale}トップページにStarlight標準検索がありません。`);
   }
+  if (!html.includes('data-ivrm-assistant')) {
+    throw new Error(`${locale}トップページにチャット検索がありません。`);
+  }
+  if (!html.includes('data-ivrm-global-footer')) {
+    throw new Error(`${locale}トップページに共通フッターがありません。`);
+  }
+}
+
+const assistantPages = [
+  ['日本語', path.join(dist, 'support', 'assistant', 'index.html')],
+  ['英語', path.join(dist, 'en', 'support', 'assistant', 'index.html')],
+];
+
+for (const [locale, assistantPath] of assistantPages) {
+  const html = await readFile(assistantPath, 'utf8');
+  if (!html.includes('data-ivrm-assistant')) {
+    throw new Error(`${locale}チャット検索ページにアシスタントUIがありません。`);
+  }
+  if (!html.includes(`${deployedPrefix}pagefind/pagefind.js`)) {
+    throw new Error(`${locale}チャット検索ページがPagefind APIを参照していません。`);
+  }
+}
+
+const footerLinks = [
+  'https://ivrm.jp',
+  'https://stats.ivrm.jp',
+  'https://discord.gg/RqUEyS3FdB',
+  'mailto:contact@ivrm.jp',
+  'https://ivrm.jp/contact',
+];
+
+for (const link of footerLinks) {
+  if (!indexHtml.includes(link)) {
+    throw new Error(`共通フッターに必要なリンクがありません: ${link}`);
+  }
 }
 
 const astroAssetDirectory = path.join(dist, '_astro');
@@ -122,6 +159,12 @@ if (!cssContents.some((content) => content.includes('--sl-color-accent-low'))) {
 }
 if (!cssContents.some((content) => content.includes('.ivrm-home-search'))) {
   throw new Error('トップページ検索UIのスタイルがビルド済みCSSへ含まれていません。');
+}
+if (!cssContents.some((content) => content.includes('.ivrm-assistant'))) {
+  throw new Error('チャット検索UIのスタイルがビルド済みCSSへ含まれていません。');
+}
+if (!cssContents.some((content) => content.includes('.ivrm-global-footer'))) {
+  throw new Error('共通フッターのスタイルがビルド済みCSSへ含まれていません。');
 }
 
 console.log(`生成物の検証に成功しました: ${baseUrl.href}`);

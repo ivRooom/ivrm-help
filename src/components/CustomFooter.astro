@@ -1,0 +1,77 @@
+---
+import DefaultFooter from '@astrojs/starlight/components/Footer.astro';
+
+const isEnglish = /\/en(?:\/|$)/.test(Astro.url.pathname);
+const copy = isEnglish
+  ? {
+      tagline: 'Games, creation, and community — all in one small room.',
+      navigation: 'IVRM links',
+      support: 'Support',
+      official: 'Official website',
+      status: 'System status',
+      discord: 'Discord community',
+      email: 'Email',
+      contact: 'Contact form',
+      copyright: 'IVRM Community',
+    }
+  : {
+      tagline: 'ゲーム・創作・コミュニティが集まる、小さな部屋。',
+      navigation: 'IVRMリンク',
+      support: 'サポート',
+      official: '公式サイト',
+      status: 'システム稼働状況',
+      discord: 'Discordコミュニティ',
+      email: 'メール',
+      contact: 'お問い合わせフォーム',
+      copyright: 'IVRM Community',
+    };
+
+const year = new Date().getFullYear();
+---
+
+<DefaultFooter>
+  <slot />
+</DefaultFooter>
+
+<footer class="ivrm-global-footer" data-ivrm-global-footer>
+  <div class="ivrm-global-footer__glow" aria-hidden="true"></div>
+  <div class="ivrm-global-footer__inner">
+    <section class="ivrm-global-footer__brand" aria-label="IVRM Community">
+      <span class="ivrm-global-footer__logo" aria-hidden="true">
+        <span></span>
+      </span>
+      <div>
+        <strong>IVRM Help Center</strong>
+        <p>{copy.tagline}</p>
+      </div>
+    </section>
+
+    <nav class="ivrm-global-footer__group" aria-label={copy.navigation}>
+      <strong>{copy.navigation}</strong>
+      <a href="https://ivrm.jp" target="_blank" rel="noreferrer">
+        <span aria-hidden="true">⌂</span>{copy.official}<small>ivrm.jp</small>
+      </a>
+      <a href="https://stats.ivrm.jp" target="_blank" rel="noreferrer">
+        <span aria-hidden="true">◌</span>{copy.status}<small>stats.ivrm.jp</small>
+      </a>
+      <a href="https://discord.gg/RqUEyS3FdB" target="_blank" rel="noreferrer">
+        <span aria-hidden="true">◉</span>{copy.discord}
+      </a>
+    </nav>
+
+    <nav class="ivrm-global-footer__group" aria-label={copy.support}>
+      <strong>{copy.support}</strong>
+      <a href="mailto:contact@ivrm.jp">
+        <span aria-hidden="true">✉</span>{copy.email}<small>contact@ivrm.jp</small>
+      </a>
+      <a href="https://ivrm.jp/contact" target="_blank" rel="noreferrer">
+        <span aria-hidden="true">↗</span>{copy.contact}<small>ivrm.jp/contact</small>
+      </a>
+    </nav>
+  </div>
+
+  <div class="ivrm-global-footer__bottom">
+    <span>© {year} {copy.copyright}</span>
+    <span class="ivrm-global-footer__status"><i aria-hidden="true"></i>Help Center Online</span>
+  </div>
+</footer>
