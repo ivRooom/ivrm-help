@@ -28,12 +28,37 @@ export default defineConfig({
         { icon: 'discord', label: 'Discord', href: 'https://ivrm.jp' },
       ],
       customCss: ['./src/styles/custom.css'],
+      pagefind: true,
       head: [
         {
           tag: 'meta',
           attrs: {
             name: 'color-scheme',
             content: 'dark light',
+          },
+        },
+        {
+          tag: 'meta',
+          attrs: {
+            name: 'theme-color',
+            content: '#111421',
+            media: '(prefers-color-scheme: dark)',
+          },
+        },
+        {
+          tag: 'meta',
+          attrs: {
+            name: 'theme-color',
+            content: '#ffffff',
+            media: '(prefers-color-scheme: light)',
+          },
+        },
+        {
+          tag: 'link',
+          attrs: {
+            rel: 'sitemap',
+            href: '/sitemap.xml',
+            type: 'application/xml',
           },
         },
       ],

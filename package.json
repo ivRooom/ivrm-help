@@ -6,9 +6,10 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro check && astro build",
+    "build": "astro check && astro build && npm run verify:site",
     "preview": "astro preview",
-    "check": "astro check"
+    "check": "astro check",
+    "verify:site": "node scripts/verify-build.mjs"
   },
   "dependencies": {
     "@astrojs/starlight": "latest",
