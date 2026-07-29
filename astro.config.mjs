@@ -12,11 +12,31 @@ export default defineConfig({
         src: './src/assets/logo.svg',
         replacesTitle: false,
       },
+      defaultLocale: 'root',
+      locales: {
+        root: {
+          label: '日本語',
+          lang: 'ja',
+        },
+        en: {
+          label: 'English',
+          lang: 'en',
+        },
+      },
       social: [
         { icon: 'github', label: 'GitHub', href: 'https://github.com/ivRooom' },
         { icon: 'discord', label: 'Discord', href: 'https://ivrm.jp' },
       ],
       customCss: ['./src/styles/custom.css'],
+      head: [
+        {
+          tag: 'meta',
+          attrs: {
+            name: 'color-scheme',
+            content: 'dark light',
+          },
+        },
+      ],
       lastUpdated: true,
       editLink: {
         baseUrl: 'https://github.com/ivRooom/ivrm-help/edit/main/',
@@ -24,33 +44,36 @@ export default defineConfig({
       sidebar: [
         {
           label: 'はじめに',
+          translations: { en: 'Getting Started' },
           items: [
-            { label: 'Help Centerについて', slug: 'getting-started/community' },
-            { label: 'Discordへの参加', slug: 'getting-started/discord' },
+            { slug: 'getting-started/community' },
+            { slug: 'getting-started/discord' },
+            { slug: 'getting-started/display-and-language' },
           ],
         },
         {
           label: 'Minecraft',
           items: [
-            { label: 'Minecraftガイド', slug: 'minecraft' },
-            { label: '生活鯖への入り方', slug: 'minecraft/how-to-join' },
-            { label: 'コミュニティルール', slug: 'minecraft/rules' },
-            { label: 'ゲームモード', slug: 'minecraft/game-modes' },
-            { label: 'トラブルシューティング', slug: 'minecraft/troubleshooting' },
+            { slug: 'minecraft' },
+            { slug: 'minecraft/how-to-join' },
+            { slug: 'minecraft/rules' },
+            { slug: 'minecraft/game-modes' },
+            { slug: 'minecraft/troubleshooting' },
           ],
         },
         {
           label: 'Discord',
           items: [
-            { label: 'チャンネルガイド', slug: 'discord/channels' },
-            { label: 'ロールについて', slug: 'discord/roles' },
+            { slug: 'discord/channels' },
+            { slug: 'discord/roles' },
           ],
         },
         {
           label: 'サポート',
+          translations: { en: 'Support' },
           items: [
-            { label: 'よくある質問', slug: 'support/faq' },
-            { label: '問題を報告する', slug: 'support/report-a-problem' },
+            { slug: 'support/faq' },
+            { slug: 'support/report-a-problem' },
           ],
         },
       ],

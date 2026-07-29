@@ -1,4 +1,5 @@
 :root {
+  color-scheme: dark;
   --sl-color-accent-low: #24265d;
   --sl-color-accent: #7779ff;
   --sl-color-accent-high: #dfe0ff;
@@ -14,6 +15,7 @@
 }
 
 :root[data-theme='light'] {
+  color-scheme: light;
   --sl-color-accent-low: #e9eaff;
   --sl-color-accent: #4d50d7;
   --sl-color-accent-high: #24265d;
@@ -26,6 +28,10 @@
   --sl-color-gray-6: #eff0f5;
   --sl-color-gray-7: #f8f9fc;
   --sl-color-black: #ffffff;
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
 }
 
 .hero {
