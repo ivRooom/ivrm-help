@@ -1,0 +1,256 @@
+---
+import { withBasePath } from '../lib/base-path';
+
+interface Props {
+  lang?: 'ja' | 'en';
+}
+
+const { lang = 'ja' } = Astro.props;
+const isEnglish = lang === 'en';
+
+const copy = isEnglish
+  ? {
+      label: 'IVRM Community Help Center',
+      titleLead: 'Find answers.',
+      titleAccent: 'Keep playing.',
+      description:
+        'Everything you need to join IVRM, understand the rules, use Discord, and solve common Minecraft problems.',
+      primaryAction: 'Join the Minecraft server',
+      secondaryAction: 'Read the community rules',
+      categoriesLabel: 'Browse help categories',
+      categories: [
+        {
+          title: 'Minecraft',
+          description: 'Joining, game modes, setup, and troubleshooting',
+          href: 'en/minecraft/',
+          icon: '⛏',
+          tone: 'emerald',
+        },
+        {
+          title: 'Discord',
+          description: 'Joining, channels, roles, and community support',
+          href: 'en/getting-started/discord/',
+          icon: '◉',
+          tone: 'blue',
+        },
+        {
+          title: 'Rules',
+          description: 'Guidelines for a safe and enjoyable community',
+          href: 'en/minecraft/rules/',
+          icon: '✓',
+          tone: 'violet',
+        },
+        {
+          title: 'Support',
+          description: 'Frequently asked questions and issue reporting',
+          href: 'en/support/faq/',
+          icon: '?',
+          tone: 'orange',
+        },
+      ],
+      popularTitle: 'Popular content',
+      popularDescription: 'Start with the guides most frequently used by community members.',
+      readGuide: 'Open guide',
+      popular: [
+        {
+          eyebrow: 'Minecraft',
+          title: 'How to join the server',
+          description: 'From your application to the first successful connection.',
+          href: 'en/minecraft/how-to-join/',
+          visual: 'minecraft',
+        },
+        {
+          eyebrow: 'Game modes',
+          title: 'Explore IVRM game modes',
+          description: 'Compare Main, ATM10, GTNH, and Hardcore environments.',
+          href: 'en/minecraft/game-modes/',
+          visual: 'modes',
+        },
+        {
+          eyebrow: 'Discord',
+          title: 'Join and use Discord',
+          description: 'Learn where announcements, questions, and support belong.',
+          href: 'en/getting-started/discord/',
+          visual: 'discord',
+        },
+        {
+          eyebrow: 'FAQ',
+          title: 'Frequently asked questions',
+          description: 'Quick answers for account, connection, and community issues.',
+          href: 'en/support/faq/',
+          visual: 'faq',
+        },
+      ],
+      ctaTitle: 'Ready to begin your IVRM adventure?',
+      ctaDescription: 'Join the community, choose a game mode, and start playing together.',
+      ctaAction: 'View the Discord guide',
+    }
+  : {
+      label: 'IVRM Community Help Center',
+      titleLead: '一緒に、',
+      titleAccent: 'もっと楽しく。',
+      description:
+        'Minecraftサーバーへの参加方法、コミュニティルール、Discordの使い方、よくある問題の解決方法をまとめています。',
+      primaryAction: 'Minecraft生活鯖に参加する',
+      secondaryAction: 'コミュニティルールを見る',
+      categoriesLabel: 'ヘルプカテゴリから探す',
+      categories: [
+        {
+          title: 'Minecraft',
+          description: '参加方法・ゲームモード・導入・トラブル解決',
+          href: 'minecraft/',
+          icon: '⛏',
+          tone: 'emerald',
+        },
+        {
+          title: 'Discord',
+          description: '参加方法・チャンネル・ロール・問い合わせ',
+          href: 'getting-started/discord/',
+          icon: '◉',
+          tone: 'blue',
+        },
+        {
+          title: 'ルール',
+          description: '安心して楽しむためのガイドライン',
+          href: 'minecraft/rules/',
+          icon: '✓',
+          tone: 'violet',
+        },
+        {
+          title: 'サポート',
+          description: 'よくある質問・トラブル解決・問題報告',
+          href: 'support/faq/',
+          icon: '?',
+          tone: 'orange',
+        },
+      ],
+      popularTitle: '人気のコンテンツ',
+      popularDescription: 'コミュニティでよく利用されているガイドから確認できます。',
+      readGuide: 'ガイドを開く',
+      popular: [
+        {
+          eyebrow: 'Minecraft',
+          title: 'Minecraft生活鯖への入り方',
+          description: '参加申請から初回接続までを順番に案内します。',
+          href: 'minecraft/how-to-join/',
+          visual: 'minecraft',
+        },
+        {
+          eyebrow: 'ゲームモード',
+          title: 'IVRMのゲームモード紹介',
+          description: 'Main・ATM10・GTNH・Hardcoreの違いを確認できます。',
+          href: 'minecraft/game-modes/',
+          visual: 'modes',
+        },
+        {
+          eyebrow: 'Discord',
+          title: 'Discordへの参加・使い方',
+          description: 'お知らせ、質問、サポートに使う場所を紹介します。',
+          href: 'getting-started/discord/',
+          visual: 'discord',
+        },
+        {
+          eyebrow: 'FAQ',
+          title: 'よくある質問',
+          description: 'アカウント、接続、コミュニティの疑問をすぐ確認できます。',
+          href: 'support/faq/',
+          visual: 'faq',
+        },
+      ],
+      ctaTitle: 'さあ、IVRMで一緒に冒険をはじめよう。',
+      ctaDescription: '分からないことがあれば、いつでもこのHelp Centerを確認してください。',
+      ctaAction: 'Discord参加ガイドを見る',
+    };
+---
+
+<div class="ivrm-home">
+  <section class="ivrm-home-hero" aria-labelledby="ivrm-home-title">
+    <div class="ivrm-home-hero__scene" aria-hidden="true">
+      <span class="ivrm-home-hero__sun"></span>
+      <span class="ivrm-home-hero__island ivrm-home-hero__island--one"></span>
+      <span class="ivrm-home-hero__island ivrm-home-hero__island--two"></span>
+      <span class="ivrm-home-hero__island ivrm-home-hero__island--three"></span>
+      <span class="ivrm-home-hero__tower"></span>
+      <span class="ivrm-home-hero__terrain"></span>
+    </div>
+
+    <div class="ivrm-home-hero__content">
+      <p class="ivrm-home-hero__label">{copy.label}</p>
+      <h1 id="ivrm-home-title">
+        <span>{copy.titleLead}</span>
+        <strong>{copy.titleAccent}</strong>
+      </h1>
+      <p class="ivrm-home-hero__description">{copy.description}</p>
+      <div class="ivrm-home-hero__actions">
+        <a class="ivrm-button ivrm-button--primary" href={withBasePath(isEnglish ? 'en/minecraft/how-to-join/' : 'minecraft/how-to-join/')}>
+          <span>{copy.primaryAction}</span>
+          <span aria-hidden="true">→</span>
+        </a>
+        <a class="ivrm-button ivrm-button--secondary" href={withBasePath(isEnglish ? 'en/minecraft/rules/' : 'minecraft/rules/')}>
+          <span>{copy.secondaryAction}</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <nav class="ivrm-category-grid" aria-label={copy.categoriesLabel}>
+    {copy.categories.map((item, index) => (
+      <a
+        class={`ivrm-category-card ivrm-category-card--${item.tone}`}
+        href={withBasePath(item.href)}
+        style={`--ivrm-delay: ${index * 70}ms`}
+      >
+        <span class="ivrm-category-card__icon" aria-hidden="true">{item.icon}</span>
+        <span class="ivrm-category-card__copy">
+          <strong>{item.title}</strong>
+          <span>{item.description}</span>
+        </span>
+        <span class="ivrm-category-card__arrow" aria-hidden="true">→</span>
+      </a>
+    ))}
+  </nav>
+
+  <section class="ivrm-popular" aria-labelledby="ivrm-popular-title">
+    <div class="ivrm-section-heading">
+      <h2 id="ivrm-popular-title">{copy.popularTitle}</h2>
+      <p>{copy.popularDescription}</p>
+    </div>
+
+    <div class="ivrm-popular-grid">
+      {copy.popular.map((item, index) => (
+        <a
+          class={`ivrm-popular-card ivrm-popular-card--${item.visual}`}
+          href={withBasePath(item.href)}
+          style={`--ivrm-delay: ${index * 80}ms`}
+        >
+          <span class="ivrm-popular-card__visual" aria-hidden="true">
+            <span class="ivrm-popular-card__shape"></span>
+          </span>
+          <span class="ivrm-popular-card__body">
+            <span class="ivrm-popular-card__eyebrow">{item.eyebrow}</span>
+            <strong>{item.title}</strong>
+            <span>{item.description}</span>
+            <span class="ivrm-popular-card__link">
+              {copy.readGuide}
+              <span aria-hidden="true">→</span>
+            </span>
+          </span>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="ivrm-home-cta" aria-labelledby="ivrm-cta-title">
+    <div class="ivrm-home-cta__mark" aria-hidden="true">
+      <span></span>
+    </div>
+    <div class="ivrm-home-cta__copy">
+      <h2 id="ivrm-cta-title">{copy.ctaTitle}</h2>
+      <p>{copy.ctaDescription}</p>
+    </div>
+    <a class="ivrm-button ivrm-button--cta" href={withBasePath(isEnglish ? 'en/getting-started/discord/' : 'getting-started/discord/')}>
+      <span>{copy.ctaAction}</span>
+      <span aria-hidden="true">→</span>
+    </a>
+  </section>
+</div>
