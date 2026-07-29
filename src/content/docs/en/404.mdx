@@ -10,12 +10,11 @@ hero:
 ---
 
 import { LinkCard } from '@astrojs/starlight/components';
-
-const baseUrl = import.meta.env.BASE_URL;
+import { withBasePath } from '../../../lib/base-path';
 
 ## What you can do next
 
-<LinkCard title="Return home" description="Open the IVRM Help Center home page" href={`${baseUrl}en/`} />
-<LinkCard title="Frequently Asked Questions" description="Review common questions and answers" href={`${baseUrl}en/support/faq/`} />
-<LinkCard title="Minecraft Troubleshooting" description="Check connection, startup, and performance problems" href={`${baseUrl}en/minecraft/troubleshooting/`} />
-<LinkCard title="Report a Problem" description="Report an unresolved issue" href={`${baseUrl}en/support/report-a-problem/`} />
+<LinkCard title="Return home" description="Open the IVRM Help Center home page" href={withBasePath('en/')} />
+<LinkCard title="Frequently Asked Questions" description="Review common questions and answers" href={withBasePath('en/support/faq/')} />
+<LinkCard title="Minecraft Troubleshooting" description="Check connection, startup, and performance problems" href={withBasePath('en/minecraft/troubleshooting/')} />
+<LinkCard title="Report a Problem" description="Report an unresolved issue" href={withBasePath('en/support/report-a-problem/')} />

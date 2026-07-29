@@ -10,12 +10,11 @@ hero:
 ---
 
 import { LinkCard } from '@astrojs/starlight/components';
-
-const baseUrl = import.meta.env.BASE_URL;
+import { withBasePath } from '../../lib/base-path';
 
 ## 次にできること
 
-<LinkCard title="ホームへ戻る" description="IVRM Help Centerのトップページ" href={baseUrl} />
-<LinkCard title="よくある質問" description="よくある問題と回答を確認する" href={`${baseUrl}support/faq/`} />
-<LinkCard title="Minecraftトラブルシューティング" description="接続・起動・動作の問題を確認する" href={`${baseUrl}minecraft/troubleshooting/`} />
-<LinkCard title="問題を報告する" description="解決しない問題を報告する" href={`${baseUrl}support/report-a-problem/`} />
+<LinkCard title="ホームへ戻る" description="IVRM Help Centerのトップページ" href={withBasePath()} />
+<LinkCard title="よくある質問" description="よくある問題と回答を確認する" href={withBasePath('support/faq/')} />
+<LinkCard title="Minecraftトラブルシューティング" description="接続・起動・動作の問題を確認する" href={withBasePath('minecraft/troubleshooting/')} />
+<LinkCard title="問題を報告する" description="解決しない問題を報告する" href={withBasePath('support/report-a-problem/')} />
