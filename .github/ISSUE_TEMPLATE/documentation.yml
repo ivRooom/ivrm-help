@@ -1,0 +1,33 @@
+name: ドキュメントの改善
+description: 誤字、古い情報、分かりにくい説明を報告します
+title: "[Docs] "
+labels: []
+body:
+  - type: dropdown
+    id: category
+    attributes:
+      label: 対象カテゴリ
+      options:
+        - Minecraft
+        - Discord
+        - FAQ・サポート
+        - サイト全体
+    validations:
+      required: true
+  - type: input
+    id: page
+    attributes:
+      label: 対象ページ
+      placeholder: https://help.ivrm.jp/...
+  - type: textarea
+    id: problem
+    attributes:
+      label: 問題点
+      description: 現在の記載と、どこが問題かを書いてください。
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: 修正案
+      description: 分かる範囲で修正案を書いてください。
