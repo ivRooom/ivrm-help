@@ -8,6 +8,10 @@ on:
 permissions:
   contents: read
 
+env:
+  SITE_URL: ${{ vars.SITE_URL || 'https://ivrooom.github.io' }}
+  BASE_PATH: ${{ vars.BASE_PATH || '/ivrm-help' }}
+
 jobs:
   check:
     runs-on: ubuntu-latest
@@ -27,5 +31,5 @@ jobs:
       - name: Astroの型・コンテンツを検証
         run: npm run check
 
-      - name: 本番ビルドを検証
+      - name: GitHub Pages向け本番ビルドを検証
         run: npm run build

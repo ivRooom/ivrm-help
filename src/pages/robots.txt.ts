@@ -3,11 +3,12 @@ import type { APIRoute } from 'astro';
 export const prerender = true;
 
 export const GET: APIRoute = ({ site }) => {
-  const baseUrl = site ?? new URL('https://help.ivrm.jp');
-  const sitemapUrl = new URL('/sitemap.xml', baseUrl);
+  const origin = site ?? new URL('https://ivrooom.github.io');
+  const baseUrl = new URL(import.meta.env.BASE_URL, origin);
+  const sitemapUrl = new URL('sitemap.xml', baseUrl);
   const body = [
     'User-agent: *',
-    'Allow: /',
+    `Allow: ${import.meta.env.BASE_URL}`,
     '',
     `Sitemap: ${sitemapUrl.href}`,
     '',
