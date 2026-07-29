@@ -4,11 +4,13 @@ export const prerender = true;
 
 export const GET: APIRoute = ({ site }) => {
   const origin = site ?? new URL('https://ivrooom.github.io');
-  const baseUrl = new URL(import.meta.env.BASE_URL, origin);
+  const rawBasePath = import.meta.env.BASE_URL;
+  const basePath = rawBasePath.endsWith('/') ? rawBasePath : `${rawBasePath}/`;
+  const baseUrl = new URL(basePath, origin);
   const sitemapUrl = new URL('sitemap.xml', baseUrl);
   const body = [
     'User-agent: *',
-    `Allow: ${import.meta.env.BASE_URL}`,
+    `Allow: ${basePath}`,
     '',
     `Sitemap: ${sitemapUrl.href}`,
     '',

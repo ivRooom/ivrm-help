@@ -30,7 +30,9 @@ const is404Page = (id: string) =>
 
 export const GET: APIRoute = async ({ site }) => {
   const origin = site ?? new URL('https://ivrooom.github.io');
-  const baseUrl = new URL(import.meta.env.BASE_URL, origin);
+  const rawBasePath = import.meta.env.BASE_URL;
+  const basePath = rawBasePath.endsWith('/') ? rawBasePath : `${rawBasePath}/`;
+  const baseUrl = new URL(basePath, origin);
   const documents = await getCollection('docs');
   const paths = documents
     .filter(({ id, data }) => !data.draft && !is404Page(id))
