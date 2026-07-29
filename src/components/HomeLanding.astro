@@ -15,6 +15,9 @@ const copy = isEnglish
       titleAccent: 'Keep playing.',
       description:
         'Everything you need to join IVRM, understand the rules, use Discord, and solve common Minecraft problems.',
+      searchLabel: 'Search the IVRM Help Center',
+      searchPlaceholder: 'What do you need help with?',
+      searchDescription: 'Search every guide, FAQ, and troubleshooting page',
       primaryAction: 'Join the Minecraft server',
       secondaryAction: 'Read the community rules',
       categoriesLabel: 'Browse help categories',
@@ -91,6 +94,9 @@ const copy = isEnglish
       titleAccent: 'もっと楽しく。',
       description:
         'Minecraftサーバーへの参加方法、コミュニティルール、Discordの使い方、よくある問題の解決方法をまとめています。',
+      searchLabel: 'IVRM Help Centerを検索',
+      searchPlaceholder: '何をお探しですか？',
+      searchDescription: 'ガイド・FAQ・トラブルシューティングをまとめて検索',
       primaryAction: 'Minecraft生活鯖に参加する',
       secondaryAction: 'コミュニティルールを見る',
       categoriesLabel: 'ヘルプカテゴリから探す',
@@ -181,6 +187,30 @@ const copy = isEnglish
         <strong>{copy.titleAccent}</strong>
       </h1>
       <p class="ivrm-home-hero__description">{copy.description}</p>
+
+      <button
+        type="button"
+        class="ivrm-home-search"
+        data-ivrm-open-search
+        aria-label={copy.searchLabel}
+        aria-keyshortcuts="Control+K Meta+K"
+      >
+        <span class="ivrm-home-search__icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none">
+            <circle cx="11" cy="11" r="6.5"></circle>
+            <path d="m16 16 4 4"></path>
+          </svg>
+        </span>
+        <span class="ivrm-home-search__copy">
+          <strong>{copy.searchPlaceholder}</strong>
+          <span>{copy.searchDescription}</span>
+        </span>
+        <kbd aria-hidden="true">
+          <span data-ivrm-search-modifier>Ctrl</span>
+          <span>K</span>
+        </kbd>
+      </button>
+
       <div class="ivrm-home-hero__actions">
         <a class="ivrm-button ivrm-button--primary" href={withBasePath(isEnglish ? 'en/minecraft/how-to-join/' : 'minecraft/how-to-join/')}>
           <span>{copy.primaryAction}</span>
@@ -254,3 +284,38 @@ const copy = isEnglish
     </a>
   </section>
 </div>
+
+<script>
+  const bindHomeSearch = () => {
+    const isAppleDevice = /Mac|iPhone|iPad|iPod/.test(navigator.userAgent);
+
+    document.querySelectorAll<HTMLElement>('[data-ivrm-search-modifier]').forEach((modifier) => {
+      modifier.textContent = isAppleDevice ? '⌘' : 'Ctrl';
+    });
+
+    document.querySelectorAll<HTMLButtonElement>('[data-ivrm-open-search]').forEach((button) => {
+      if (button.dataset.ivrmSearchBound === 'true') return;
+      button.dataset.ivrmSearchBound = 'true';
+
+      button.addEventListener('click', () => {
+        const searchButton = document.querySelector<HTMLButtonElement>('site-search button[data-open-modal]');
+        if (searchButton && !searchButton.disabled) {
+          searchButton.click();
+          return;
+        }
+
+        window.dispatchEvent(new KeyboardEvent('keydown', {
+          key: 'k',
+          code: 'KeyK',
+          ctrlKey: !isAppleDevice,
+          metaKey: isAppleDevice,
+          bubbles: true,
+          cancelable: true,
+        }));
+      });
+    });
+  };
+
+  document.addEventListener('astro:page-load', bindHomeSearch);
+  bindHomeSearch();
+</script>
