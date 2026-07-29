@@ -7,19 +7,14 @@ pagefind: false
 hero:
   title: '404'
   tagline: Page not found. Check the URL or try the search button in the header.
-  actions:
-    - text: Return home
-      link: /en/
-      icon: right-arrow
-      variant: primary
-    - text: View frequently asked questions
-      link: /en/support/faq/
-      icon: open-book
-      variant: minimal
 ---
+
+import { LinkCard } from '@astrojs/starlight/components';
+import { withBasePath } from '../../../lib/base-path';
 
 ## What you can do next
 
-- Use the search button in the header to find a guide by keyword.
-- Check the [Minecraft troubleshooting guide](/en/minecraft/troubleshooting/).
-- If the problem remains, [report the issue](/en/support/report-a-problem/).
+<LinkCard title="Return home" description="Open the IVRM Help Center home page" href={withBasePath('en/')} />
+<LinkCard title="Frequently Asked Questions" description="Review common questions and answers" href={withBasePath('en/support/faq/')} />
+<LinkCard title="Minecraft Troubleshooting" description="Check connection, startup, and performance problems" href={withBasePath('en/minecraft/troubleshooting/')} />
+<LinkCard title="Report a Problem" description="Report an unresolved issue" href={withBasePath('en/support/report-a-problem/')} />

@@ -4,6 +4,17 @@ import path from 'node:path';
 const root = process.cwd();
 const dist = path.join(root, 'dist');
 
+const normalizeBasePath = (value) => {
+  const trimmed = value.trim();
+  if (!trimmed || trimmed === '/') return '/';
+  return `/${trimmed.replace(/^\/+|\/+$/g, '')}`;
+};
+
+const siteUrl = (process.env.SITE_URL || 'https://ivrooom.github.io').replace(/\/+$/g, '');
+const basePath = normalizeBasePath(process.env.BASE_PATH || '/ivrm-help');
+const deployedPrefix = basePath === '/' ? '/' : `${basePath}/`;
+const baseUrl = new URL(deployedPrefix, `${siteUrl}/`);
+
 const requiredFiles = [
   'dist/404.html',
   'dist/robots.txt',
@@ -32,10 +43,10 @@ if (!pagefindFiles.some((fileName) => fileName.startsWith('pagefind'))) {
 
 const sitemap = await readFile(path.join(dist, 'sitemap.xml'), 'utf8');
 const requiredUrls = [
-  'https://help.ivrm.jp/',
-  'https://help.ivrm.jp/en/',
-  'https://help.ivrm.jp/minecraft/how-to-join/',
-  'https://help.ivrm.jp/en/minecraft/how-to-join/',
+  new URL('', baseUrl).href,
+  new URL('en/', baseUrl).href,
+  new URL('minecraft/how-to-join/', baseUrl).href,
+  new URL('en/minecraft/how-to-join/', baseUrl).href,
 ];
 
 for (const url of requiredUrls) {
@@ -45,8 +56,54 @@ for (const url of requiredUrls) {
 }
 
 const robots = await readFile(path.join(dist, 'robots.txt'), 'utf8');
-if (!robots.includes('Sitemap: https://help.ivrm.jp/sitemap.xml')) {
+const expectedSitemapUrl = new URL('sitemap.xml', baseUrl).href;
+if (!robots.includes(`Sitemap: ${expectedSitemapUrl}`)) {
   throw new Error('robots.txtにサイトマップURLが設定されていません。');
 }
 
-console.log('生成物の検証に成功しました。');
+const collectHtmlFiles = async (directory) => {
+  const entries = await readdir(directory, { withFileTypes: true });
+  const nested = await Promise.all(entries.map(async (entry) => {
+    const absolutePath = path.join(directory, entry.name);
+    if (entry.isDirectory()) return collectHtmlFiles(absolutePath);
+    return entry.isFile() && entry.name.endsWith('.html') ? [absolutePath] : [];
+  }));
+  return nested.flat();
+};
+
+const htmlFiles = await collectHtmlFiles(dist);
+const rootRelativeReference = /\b(?:href|src)=["'](\/(?!\/)[^"']*)["']/g;
+
+for (const htmlPath of htmlFiles) {
+  const html = await readFile(htmlPath, 'utf8');
+  for (const match of html.matchAll(rootRelativeReference)) {
+    const reference = match[1];
+    if (basePath !== '/' && reference !== basePath && !reference.startsWith(deployedPrefix)) {
+      throw new Error(`ベースパス外の参照があります: ${path.relative(root, htmlPath)} -> ${reference}`);
+    }
+  }
+}
+
+const indexHtml = await readFile(path.join(dist, 'index.html'), 'utf8');
+if (!indexHtml.includes(`${deployedPrefix}_astro/`)) {
+  throw new Error('トップページのCSS・JavaScriptがデプロイ先のベースパスを参照していません。');
+}
+if (!indexHtml.includes(`${deployedPrefix}favicon.svg`)) {
+  throw new Error('faviconがデプロイ先のベースパスを参照していません。');
+}
+
+const astroAssetDirectory = path.join(dist, '_astro');
+const assetFiles = await readdir(astroAssetDirectory);
+const cssFiles = assetFiles.filter((fileName) => fileName.endsWith('.css'));
+if (cssFiles.length === 0) {
+  throw new Error('ビルド済みCSSが見つかりません。');
+}
+
+const cssContents = await Promise.all(
+  cssFiles.map((fileName) => readFile(path.join(astroAssetDirectory, fileName), 'utf8')),
+);
+if (!cssContents.some((content) => content.includes('--sl-color-accent-low'))) {
+  throw new Error('カスタムスタイルがビルド済みCSSへ含まれていません。');
+}
+
+console.log(`生成物の検証に成功しました: ${baseUrl.href}`);

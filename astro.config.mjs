@@ -1,13 +1,30 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 
+const DEFAULT_SITE_URL = 'https://ivrooom.github.io';
+const DEFAULT_BASE_PATH = '/ivrm-help';
+
+const normalizeBasePath = (value) => {
+  const trimmed = value.trim();
+  if (!trimmed || trimmed === '/') return '/';
+  return `/${trimmed.replace(/^\/+|\/+$/g, '')}`;
+};
+
+const siteUrl = (process.env.SITE_URL || DEFAULT_SITE_URL).replace(/\/+$/g, '');
+const base = normalizeBasePath(process.env.BASE_PATH || DEFAULT_BASE_PATH);
+const withBase = (pathname) => {
+  const normalizedPath = pathname.replace(/^\/+/, '');
+  return base === '/' ? `/${normalizedPath}` : `${base}/${normalizedPath}`;
+};
+
 export default defineConfig({
-  site: 'https://help.ivrm.jp',
+  site: siteUrl,
+  base,
   integrations: [
     starlight({
       title: 'IVRM Help Center',
       description: 'ivRooomコミュニティの参加方法、ルール、マニュアル、トラブルシューティング',
-      favicon: '/favicon.svg',
+      favicon: withBase('favicon.svg'),
       logo: {
         src: './src/assets/logo.svg',
         replacesTitle: false,
@@ -57,7 +74,7 @@ export default defineConfig({
           tag: 'link',
           attrs: {
             rel: 'sitemap',
-            href: '/sitemap.xml',
+            href: withBase('sitemap.xml'),
             type: 'application/xml',
           },
         },

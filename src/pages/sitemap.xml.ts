@@ -17,19 +17,22 @@ const docIdToPath = (id: string) => {
     .replace(/\.(md|mdx|mdoc)$/i, '')
     .replace(/^\/+|\/+$/g, '');
 
-  if (!normalizedId || normalizedId === 'index') return '/';
+  if (!normalizedId || normalizedId === 'index') return '';
   if (normalizedId.endsWith('/index')) {
-    return `/${normalizedId.slice(0, -'/index'.length)}/`;
+    return `${normalizedId.slice(0, -'/index'.length)}/`;
   }
 
-  return `/${normalizedId}/`;
+  return `${normalizedId}/`;
 };
 
 const is404Page = (id: string) =>
   /(^|\/)404(?:\.(md|mdx|mdoc))?$/i.test(id.replaceAll('\\', '/'));
 
 export const GET: APIRoute = async ({ site }) => {
-  const baseUrl = site ?? new URL('https://help.ivrm.jp');
+  const origin = site ?? new URL('https://ivrooom.github.io');
+  const rawBasePath = import.meta.env.BASE_URL;
+  const basePath = rawBasePath.endsWith('/') ? rawBasePath : `${rawBasePath}/`;
+  const baseUrl = new URL(basePath, origin);
   const documents = await getCollection('docs');
   const paths = documents
     .filter(({ id, data }) => !data.draft && !is404Page(id))
