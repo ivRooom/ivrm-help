@@ -28,6 +28,9 @@ jobs:
       - name: 依存関係をインストール
         run: npm install
 
+      - name: 公開情報と内部リンクを検証
+        run: npm run check:repository
+
       - name: Astroの型・コンテンツを検証
         run: npm run check
 
