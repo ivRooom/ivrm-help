@@ -1,0 +1,125 @@
+---
+title: Main生活鯖
+sidebar:
+  label: Main生活鯖の概要
+description: IVRM Main生活鯖のコンセプト、対応バージョン、遊べる要素、参加前の注意点
+---
+
+import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
+
+IVRM Mainは、**生活・農業・料理・建築・探索・収納自動化・成長要素**を一つのワールドで長く楽しむための、ホワイトリスト制Minecraft Java Editionサーバーです。
+
+短期間で攻略し切る大型Modpackではなく、街や拠点を少しずつ発展させ、ほかの参加者と施設・道路・農場・お店・探索成果を共有することを重視しています。
+
+:::note[最終更新]
+このページは2026年7月30日時点の公開用構成です。MODの追加・更新は、サーバーと配布クライアントの接続試験が完了したものから反映します。
+:::
+
+## 基本環境
+
+| 項目 | 内容 |
+| --- | --- |
+| エディション | Minecraft Java Edition |
+| Minecraft | **26.1.2** |
+| Modローダー | **NeoForge 26.1.2.81** |
+| Java | **Java 25.0.3** |
+| 基本ランチャー | CurseForge App |
+| 配布方法 | Discordで案内するIVRM Mainプロファイル |
+| 参加方式 | ホワイトリスト制 |
+| 最大接続人数 | 10人 |
+| ゲームモード | サバイバル |
+| ボイスチャット | Simple Voice Chat対応 |
+| 資源鯖 | Mainと同じMOD構成の別環境として準備中 |
+
+:::caution[MODを個別に変更しないでください]
+サーバー側とクライアント側で同じMOD・同じバージョンが必要です。配布プロファイルからMODを削除したり、未案内のMODを追加したりすると、接続失敗・レジストリ不一致・クラッシュの原因になります。
+:::
+
+## Mainでできること
+
+<CardGrid>
+  <Card title="生活・農業・料理" icon="heart">
+    Croptopia、Cooking for Blockheads、Actually Harvestなどで、多数の作物・果樹・料理、キッチン、農園を作れます。共同農場や食堂、料理販売などにも向いています。
+  </Card>
+  <Card title="建築・街づくり" icon="puzzle">
+    Macaw'sシリーズ、Rechiseled、Armor Cosmeticなどで、住宅、店舗、公共施設、道路、公園、内装を細かく作り込めます。
+  </Card>
+  <Card title="探索・ダンジョン" icon="rocket">
+    Regions Unexplored、Dimensional Dungeons、Lootr、各種コンパスにより、新しい景観、構造物、個人別の戦利品を楽しめます。
+  </Card>
+  <Card title="収納・自動化" icon="seti:settings">
+    Sophisticated Storage、Sophisticated Backpacks、Applied Energistics 2と拡張MODで、拠点の収納整理から大規模な自動クラフトまで発展できます。
+  </Card>
+  <Card title="成長・戦闘" icon="star">
+    スキルツリー、Better Combat、Apotheosis系要素などにより、採掘・農業・戦闘を続けるほど装備や能力を発展させられます。
+  </Card>
+  <Card title="コミュニティ機能" icon="comment">
+    ゲーム内ボイスチャット、チーム、クエスト、ランキング、Tab表示を使い、共同目標やイベントを分かりやすくします。
+  </Card>
+</CardGrid>
+
+## 遊び方の流れ
+
+### 1. 生活の基盤を作る
+
+最初は住居、畑、食料、共有設備を整えます。Easy VillagersやSophisticated Storageにより、Vanillaより管理しやすい生活環境を作れます。
+
+### 2. 探索して素材を集める
+
+Regions Unexploredによる新バイオーム、Nature's Compass、Explorer's Compass、Waystonesを利用して、建材・作物・構造物を探します。
+
+### 3. 拠点を発展させる
+
+多数の建築ブロックや家具を使い、住宅だけでなく商店、駅、倉庫、工房、公共施設などを共同で整備できます。
+
+### 4. 収納と自動化を進める
+
+序盤はSophisticated StorageとBackpacksを使い、発展後はApplied Energistics 2で大量のアイテムを一つのネットワークへまとめます。
+
+### 5. クエスト・記録・高難度要素へ挑戦する
+
+FTB Questsで各MODの目標を確認し、Leaderboardsでプレイ記録を比較できます。強敵・魔法・追加ディメンションは、互換性とサーバー負荷を確認しながら段階的に追加します。
+
+## ワールド運用
+
+### 生活ワールド
+
+生活、建築、共同施設の中心となるワールドです。原則として定期リセットを行わず、長期間かけて発展させます。
+
+### 資源鯖
+
+採掘、伐採、遠距離探索を目的とした別環境として準備しています。
+
+- Mainと同じMinecraft・NeoForge・MOD構成を使用
+- 必要なときだけ起動する運用を予定
+- 月1回程度のリセットを予定
+- 実装・接続試験が完了するまでは利用できません
+
+:::note[資源の持ち帰り]
+別サーバー間ではインベントリが自動共有されません。Mainへ安全に資源を持ち帰る方式を検証したうえで公開します。
+:::
+
+## サーバーとクライアントのMOD区分
+
+| 区分 | 説明 | 例 |
+| --- | --- | --- |
+| サーバー＋クライアント | ゲーム内容、アイテム、画面、通信を追加するため両方へ必要 | AE2、Croptopia、Waystones、Better Combat |
+| サーバーのみ | 権限、性能監視、事前生成など運営機能 | LuckPerms、spark、Chunky、TAB |
+| クライアントのみ | レシピ表示、操作改善、描画軽量化、音響 | JEI、Jade、Sodium、Dynamic FPS |
+
+詳しいMOD名、状態、バージョン、導入先、説明は[導入MOD一覧](./mods/)で確認できます。
+
+## 参加前に確認すること
+
+- Minecraft Java Editionを利用できること
+- IVRM Discordへ参加していること
+- Minecraft IDのホワイトリスト登録が完了していること
+- Discordで配布する最新プロファイルを使用していること
+- クライアントのMODを個別に変更していないこと
+- キー設定の競合がある場合はControllingで確認すること
+- ボイスチャットを使う場合はマイク・入力デバイスを確認すること
+
+<LinkCard title="生活鯖への入り方" description="ランチャー準備、プロファイル導入、ホワイトリスト申請、接続手順" href="./how-to-join/" />
+<LinkCard title="導入MOD一覧" description="MODの検索、カテゴリ、導入先、状態、バージョン、詳しい説明" href="./mods/" />
+<LinkCard title="ルール" description="建築、共有物、PvP、チャット、禁止事項" href="./rules/" />
+<LinkCard title="トラブルシューティング" description="起動しない、接続できない、MOD不一致、ボイスチャットの問題" href="./troubleshooting/" />
