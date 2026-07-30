@@ -1,0 +1,1099 @@
+---
+type ModStatus = 'installed' | 'planned' | 'waiting';
+type ModSide = 'both' | 'server' | 'client';
+type ModCategory =
+  | '基盤・管理'
+  | '収納・自動化'
+  | '生活・農業'
+  | '探索・移動'
+  | '建築・装飾'
+  | '戦闘・成長'
+  | '情報・操作'
+  | '軽量化・演出'
+  | '依存ライブラリ';
+
+type ModEntry = {
+  name: string;
+  version: string;
+  category: ModCategory;
+  side: ModSide;
+  status: ModStatus;
+  summary: string;
+  details: string;
+};
+
+const mods: ModEntry[] = [
+  {
+    name: 'Simple Voice Chat',
+    version: 'Minecraft 26.1.2対応固定版',
+    category: '基盤・管理',
+    side: 'both',
+    status: 'installed',
+    summary: 'ゲーム内で距離に応じた近接ボイスチャットを使えるようにします。',
+    details: '周囲のプレイヤーとの会話が距離や方向に応じて聞こえるため、探索・建築・イベントをDiscordへ戻らず楽しめます。クライアント側にも同じ対応版が必要です。',
+  },
+  {
+    name: 'LuckPerms',
+    version: 'Minecraft 26.1.2対応固定版',
+    category: '基盤・管理',
+    side: 'server',
+    status: 'installed',
+    summary: 'プレイヤー権限とグループを管理するサーバー管理MODです。',
+    details: 'owner・admin・memberなどの役割ごとにコマンド権限や表示を制御します。参加者のクライアントへ追加する必要はありません。',
+  },
+  {
+    name: 'TAB',
+    version: 'Minecraft 26.1.2対応固定版',
+    category: '基盤・管理',
+    side: 'server',
+    status: 'installed',
+    summary: 'Tabキーで表示するプレイヤー一覧を見やすくします。',
+    details: 'オンライン人数、グループ、Ping、サーバー案内などを表示します。生活鯖向けのヘッダー・フッターを設定しています。',
+  },
+  {
+    name: 'spark',
+    version: 'Minecraft 26.1.2対応固定版',
+    category: '基盤・管理',
+    side: 'server',
+    status: 'installed',
+    summary: 'TPS・MSPT・CPU・メモリを調査する性能分析MODです。',
+    details: 'サーバーが重いときに原因となっているチャンク、Mob、処理を運営側が調査するために使います。',
+  },
+  {
+    name: 'ServerCore',
+    version: '1.5.18+26.1.2',
+    category: '基盤・管理',
+    side: 'server',
+    status: 'installed',
+    summary: 'サーバー処理を最適化し、負荷を抑えるためのMODです。',
+    details: 'エンティティやチャンク周辺の処理を調整し、少人数の生活鯖で安定したTPSを維持しやすくします。',
+  },
+  {
+    name: 'FerriteCore',
+    version: 'Minecraft 26.1.2対応固定版',
+    category: '基盤・管理',
+    side: 'server',
+    status: 'installed',
+    summary: 'ブロック状態などのメモリ使用量を削減します。',
+    details: '多数のMODを読み込む環境でRAM消費を抑えるための軽量化MODです。ゲーム内容は変更しません。',
+  },
+  {
+    name: 'Alternate Current',
+    version: 'Minecraft 26.1.2対応固定版',
+    category: '基盤・管理',
+    side: 'server',
+    status: 'installed',
+    summary: 'レッドストーン更新処理を効率化します。',
+    details: '大規模な回路や装置がある場所で、Vanillaのレッドストーン処理による負荷を減らします。',
+  },
+  {
+    name: 'Chunky',
+    version: 'NeoForge 1.5.3',
+    category: '基盤・管理',
+    side: 'server',
+    status: 'installed',
+    summary: '指定範囲のチャンクを事前生成します。',
+    details: '探索時の急なチャンク生成負荷を減らすため、メンテナンス中にワールドを先に生成します。参加者が操作するMODではありません。',
+  },
+  {
+    name: 'Leaderboards',
+    version: 'Minecraft 26.1.2対応固定版',
+    category: '基盤・管理',
+    side: 'both',
+    status: 'installed',
+    summary: 'プレイ時間・採掘・移動・戦闘などの統計ランキングを表示します。',
+    details: 'Vanilla統計をもとに、メンバー同士でさまざまな記録を比較できます。専用画面を表示するためクライアント側にも必要です。',
+  },
+  {
+    name: 'FTB Quests',
+    version: '26.1.2.2',
+    category: '基盤・管理',
+    side: 'both',
+    status: 'installed',
+    summary: '生活鯖の進め方や目標をクエスト形式で案内します。',
+    details: '初参加者向けの導線、各MODのチュートリアル、共同目標、報酬付きチャレンジを段階的に追加する基盤です。',
+  },
+  {
+    name: 'FTB Teams',
+    version: '26.1.2.4',
+    category: '基盤・管理',
+    side: 'both',
+    status: 'installed',
+    summary: 'プレイヤー同士でチームを作るための基盤MODです。',
+    details: 'FTB Questsなどと連携し、チーム単位で進行状況や共同目標を管理できるようにします。',
+  },
+  {
+    name: 'Sophisticated Backpacks',
+    version: '3.25.83.2019',
+    category: '収納・自動化',
+    side: 'both',
+    status: 'installed',
+    summary: '大容量で拡張可能なバックパックを追加します。',
+    details: '自動回収、補充、圧縮、フィルターなどのアップグレードを組み合わせられます。長時間の探索や建築資材の運搬に便利です。',
+  },
+  {
+    name: 'Sophisticated Storage',
+    version: '1.5.101.2030',
+    category: '収納・自動化',
+    side: 'both',
+    status: 'installed',
+    summary: 'アップグレード可能なチェスト・樽・収納設備を追加します。',
+    details: '容量拡張、アイテム整理、フィルター、自動入出力などを使い、拠点の収納を段階的に発展させられます。',
+  },
+  {
+    name: 'Applied Energistics 2',
+    version: 'Minecraft 26.1.2対応固定版',
+    category: '収納・自動化',
+    side: 'both',
+    status: 'installed',
+    summary: 'アイテムをデジタル管理する大規模収納・自動クラフトMODです。',
+    details: 'MEネットワークを構築し、拠点全体のアイテム検索、集中収納、自動クラフトを行えます。発展後の主要な技術要素です。',
+  },
+  {
+    name: 'AE2 Import Export Card',
+    version: 'Minecraft 26.1.2対応固定版',
+    category: '収納・自動化',
+    side: 'both',
+    status: 'installed',
+    summary: 'AE2の入出力機能を拡張します。',
+    details: 'ネットワークへの取り込み・搬出を柔軟に設定でき、収納や自動化設備を組みやすくします。',
+  },
+  {
+    name: 'AE2 Network Analyser',
+    version: 'Minecraft 26.1.2対応固定版',
+    category: '収納・自動化',
+    side: 'both',
+    status: 'installed',
+    summary: 'AE2ネットワークの状態を確認しやすくします。',
+    details: '接続状況やチャンネルなどを調査し、ネットワーク構築時の問題を見つけやすくします。',
+  },
+  {
+    name: 'Bigger AE2',
+    version: 'Minecraft 26.1.2対応固定版',
+    category: '収納・自動化',
+    side: 'both',
+    status: 'installed',
+    summary: 'AE2に大容量ストレージや上位設備を追加します。',
+    details: '標準AE2より大きな規模のデジタル収納を構築したいメンバー向けの拡張です。',
+  },
+  {
+    name: 'AdvancedAE',
+    version: 'Minecraft 26.1.2対応固定版',
+    category: '収納・自動化',
+    side: 'both',
+    status: 'installed',
+    summary: 'AE2の上位機器と高度な自動化要素を追加します。',
+    details: 'ネットワークを発展させた後に使う上級者向け拡張で、より高度なクラフト・処理構成を作れます。',
+  },
+  {
+    name: 'Applied Generators',
+    version: 'Minecraft 26.1.2対応固定版',
+    category: '収納・自動化',
+    side: 'both',
+    status: 'installed',
+    summary: 'AE2周辺で利用できる発電・エネルギー要素を追加します。',
+    details: '収納ネットワークの電力供給を補い、拠点設備の発展に選択肢を増やします。',
+  },
+  {
+    name: 'Cooking for Blockheads',
+    version: 'Minecraft 26.1.2対応固定版',
+    category: '生活・農業',
+    side: 'both',
+    status: 'installed',
+    summary: '複数の食材を扱いやすいキッチン設備を追加します。',
+    details: '冷蔵庫、調理台、オーブンなどをまとめて使えるキッチンを構築し、多数の料理レシピを作りやすくします。',
+  },
+  {
+    name: 'Croptopia',
+    version: '26.1.2-4.3.1',
+    category: '生活・農業',
+    side: 'both',
+    status: 'installed',
+    summary: '多数の作物、果樹、料理を追加する大型農業MODです。',
+    details: '58種類の作物、26種類の果樹、250種類以上の料理を追加し、農園・食堂・食品販売など生活鯖らしい遊びを広げます。',
+  },
+  {
+    name: 'Actually Harvest',
+    version: '1.1.7.6',
+    category: '生活・農業',
+    side: 'both',
+    status: 'installed',
+    summary: '成熟した作物を扱いやすく収穫できるようにします。',
+    details: '農作業の操作負担を減らし、大規模農園でも植え直しを含めた収穫を行いやすくします。',
+  },
+  {
+    name: 'Farming for Blockheads',
+    version: '26.1.2.2',
+    category: '生活・農業',
+    side: 'both',
+    status: 'planned',
+    summary: '種や苗木などを売買できる農業マーケットを追加します。',
+    details: '農業開始時に必要な作物を集めやすくし、Croptopiaや各種農業要素への入口を分かりやすくします。本番導入作業中です。',
+  },
+  {
+    name: 'Aquaculture 2',
+    version: '2.9.2（26.1.1対応版）',
+    category: '生活・農業',
+    side: 'both',
+    status: 'planned',
+    summary: '魚、釣り竿、釣り装備、釣果を大幅に追加します。',
+    details: '地域ごとの魚や専用装備が増え、釣りを独立した生活コンテンツとして楽しめるようになります。本番導入前の検証対象です。',
+  },
+  {
+    name: 'Spice of Life: Carrot Edition',
+    version: '26.1-1.19.0',
+    category: '生活・農業',
+    side: 'both',
+    status: 'planned',
+    summary: '異なる種類の食べ物を食べることに報酬を与えます。',
+    details: '食事の種類を増やすほど最大体力などの報酬を得られ、Croptopiaの多数の料理を作る目的が生まれます。',
+  },
+  {
+    name: 'Regions Unexplored',
+    version: 'Minecraft 26.1.2対応固定版',
+    category: '探索・移動',
+    side: 'both',
+    status: 'installed',
+    summary: '多数の新しいバイオーム、樹木、植物、景観を追加します。',
+    details: '通常世界の探索体験を広げ、建築に使える新素材も追加します。新規チャンク生成時はサーバー負荷が上がる場合があります。',
+  },
+  {
+    name: "Nature's Compass",
+    version: 'Minecraft 26.1.2対応固定版',
+    category: '探索・移動',
+    side: 'both',
+    status: 'installed',
+    summary: '目的のバイオームを検索できるコンパスを追加します。',
+    details: 'Regions Unexploredを含む多数のバイオームから、探したい場所の方向と距離を確認できます。',
+  },
+  {
+    name: "Explorer's Compass",
+    version: 'Minecraft 26.1.2対応固定版',
+    category: '探索・移動',
+    side: 'both',
+    status: 'installed',
+    summary: '目的の構造物を検索できるコンパスを追加します。',
+    details: '村、ダンジョン、寺院などを探す際に、対象構造物の方向を確認できます。',
+  },
+  {
+    name: 'Waystones',
+    version: '26.1.2.10',
+    category: '探索・移動',
+    side: 'both',
+    status: 'installed',
+    summary: '登録地点間を移動できるウェイストーンを追加します。',
+    details: '拠点や共有施設、遠方の探索地点を登録して移動できます。利用コストや設置ルールはサーバー設定に従います。',
+  },
+  {
+    name: 'Comforts',
+    version: '15.0.0+26.1.2',
+    category: '探索・移動',
+    side: 'both',
+    status: 'installed',
+    summary: '寝袋やハンモックを追加します。',
+    details: 'リスポーン地点を不用意に変更せずに夜を越せるため、長距離探索や共同遠征に便利です。',
+  },
+  {
+    name: 'Lootr',
+    version: '26.1.2-1.23.38.120',
+    category: '探索・移動',
+    side: 'both',
+    status: 'installed',
+    summary: 'ダンジョンの戦利品チェストをプレイヤーごとに個別化します。',
+    details: '誰かが先に開けたチェストでも各プレイヤーが自分の戦利品を受け取れるため、探索コンテンツを公平に共有できます。',
+  },
+  {
+    name: 'Corpse',
+    version: '1.1.16+26.1.2',
+    category: '探索・移動',
+    side: 'both',
+    status: 'installed',
+    summary: '死亡地点に所持品を保持する死体を生成します。',
+    details: 'アイテムが地面へ散らばり消失する危険を減らし、死亡地点へ戻って回収しやすくします。',
+  },
+  {
+    name: 'Easy Villagers',
+    version: '1.1.42+26.1.2',
+    category: '生活・農業',
+    side: 'both',
+    status: 'installed',
+    summary: '村人の移動、取引、育成を扱いやすくします。',
+    details: '村人を安全に管理できるブロックや仕組みを追加し、取引所や繁殖設備をコンパクトに構築できます。',
+  },
+  {
+    name: 'Dimensional Dungeons',
+    version: 'Minecraft 26.1.2対応固定版',
+    category: '探索・移動',
+    side: 'both',
+    status: 'installed',
+    summary: '専用ディメンションに攻略型ダンジョンを追加します。',
+    details: '通常ワールドを大きく破壊せずに、罠・戦闘・報酬のあるダンジョン探索を繰り返し楽しめます。',
+  },
+  {
+    name: 'The Undergarden',
+    version: '26.1.2-0.9.7 Beta',
+    category: '探索・移動',
+    side: 'both',
+    status: 'planned',
+    summary: '独自バイオーム・Mob・素材を持つ大型地下ディメンションを追加します。',
+    details: '別世界を長期探索する冒険要素として候補にしています。Beta版のため、他のMODと分離して性能・互換性を検証してから導入します。',
+  },
+  {
+    name: "Macaw's Furniture",
+    version: '3.4.2',
+    category: '建築・装飾',
+    side: 'both',
+    status: 'installed',
+    summary: '椅子、机、棚、収納などの家具を追加します。',
+    details: '住宅、店舗、公共施設の内装を細かく作り込めるようになります。',
+  },
+  {
+    name: "Macaw's Fences and Walls",
+    version: '1.2.1',
+    category: '建築・装飾',
+    side: 'both',
+    status: 'installed',
+    summary: 'さまざまな素材のフェンス、壁、門を追加します。',
+    details: '建物の外構、道路、公園、農場などを素材に合わせて統一できます。',
+  },
+  {
+    name: "Macaw's Roofs",
+    version: '2.3.2',
+    category: '建築・装飾',
+    side: 'both',
+    status: 'installed',
+    summary: '傾斜屋根や雨どいなどの屋根建材を追加します。',
+    details: '階段ブロックだけでは作りにくい自然な屋根形状を作れます。',
+  },
+  {
+    name: "Macaw's Windows",
+    version: '2.4.2',
+    category: '建築・装飾',
+    side: 'both',
+    status: 'installed',
+    summary: '開閉可能な窓や多様な窓枠を追加します。',
+    details: '住宅、商店、ビルなどの外観と室内表現を豊かにします。',
+  },
+  {
+    name: 'Rechiseled',
+    version: '1.2.5',
+    category: '建築・装飾',
+    side: 'both',
+    status: 'installed',
+    summary: '既存素材から多数の装飾ブロックを作れるようにします。',
+    details: '石、木材、金属などの見た目を増やし、大規模建築でも壁や床の表現が単調になりにくくなります。',
+  },
+  {
+    name: 'Armor Cosmetic',
+    version: '1.0.21',
+    category: '建築・装飾',
+    side: 'both',
+    status: 'installed',
+    summary: '防具性能と見た目を分けて設定できるようにします。',
+    details: '強い防具を装備したまま、好みの見た目や衣装で生活できます。',
+  },
+  {
+    name: 'Shogi',
+    version: '26.1.2.7',
+    category: '生活・農業',
+    side: 'both',
+    status: 'installed',
+    summary: 'Minecraft内で将棋を遊べるようにします。',
+    details: '拠点やイベント会場に対戦用の娯楽コンテンツを設置できます。',
+  },
+  {
+    name: 'Visual Workbench',
+    version: '26.1.0',
+    category: '建築・装飾',
+    side: 'both',
+    status: 'planned',
+    summary: '作業台に置いた素材を外見として表示し、内容を保持します。',
+    details: '共同作業中でもクラフト途中の素材が見え、生活感のある作業場を作れます。',
+  },
+  {
+    name: 'Camera Mod',
+    version: '1.1.8+26.1.2',
+    category: '建築・装飾',
+    side: 'both',
+    status: 'planned',
+    summary: 'ゲーム内で写真を撮影して飾れるようにします。',
+    details: '街や建築物の発展記録、イベント写真、集合写真を残す用途で導入予定です。',
+  },
+  {
+    name: 'SecurityCraft',
+    version: '1.10.2.1',
+    category: '建築・装飾',
+    side: 'both',
+    status: 'planned',
+    summary: '防犯ブロック、アクセス制御、監視設備を追加します。',
+    details: '共有施設や個人拠点で、所有者設定、強化ブロック、カメラなどを利用できるようにします。悪用防止のため一部機能を制限する場合があります。',
+  },
+  {
+    name: "Pufferfish's Skills",
+    version: 'Minecraft 26.1.2対応固定版',
+    category: '戦闘・成長',
+    side: 'both',
+    status: 'installed',
+    summary: '行動に応じて成長するスキルシステムを追加します。',
+    details: '採掘、戦闘、農業などのプレイをキャラクター成長へつなげ、長期的な目標を作ります。',
+  },
+  {
+    name: "Pufferfish's Attributes",
+    version: 'Minecraft 26.1.2対応固定版',
+    category: '戦闘・成長',
+    side: 'both',
+    status: 'installed',
+    summary: 'スキルや装備で利用する追加能力値の基盤です。',
+    details: '移動、攻撃、耐久などの成長要素を他MODから利用できるようにします。',
+  },
+  {
+    name: 'Default Skill Trees',
+    version: '1.1',
+    category: '戦闘・成長',
+    side: 'both',
+    status: 'installed',
+    summary: '利用可能な基本スキルツリーを追加します。',
+    details: 'Pufferfish系の成長システムを導入直後から遊べるようにするデータセットです。',
+  },
+  {
+    name: 'Better Combat',
+    version: '3.2.2+26.1.2',
+    category: '戦闘・成長',
+    side: 'both',
+    status: 'installed',
+    summary: '武器ごとの攻撃モーションと戦闘操作を改善します。',
+    details: '連続攻撃、リーチ、両手武器などを分かりやすくし、追加武器MODとの戦闘を滑らかにします。',
+  },
+  {
+    name: 'VeinMiner Highly Configurable',
+    version: '3.1.3+mc26.1.2',
+    category: '戦闘・成長',
+    side: 'server',
+    status: 'installed',
+    summary: '同じ種類の鉱石や原木をまとめて採掘できます。',
+    details: '最大64ブロック、空腹消費とクールダウンを有効にした本番向け設定です。通常はサーバー側だけで利用できます。',
+  },
+  {
+    name: 'Project MMO',
+    version: '2.8.34',
+    category: '戦闘・成長',
+    side: 'both',
+    status: 'planned',
+    summary: '採掘・農業・戦闘などをレベル制にする本格MMO成長MODです。',
+    details: '現在のスキル構成との重複・競合を確認しながら導入予定です。採用時は必要レベルや成長速度を生活鯖向けに調整します。',
+  },
+  {
+    name: 'Artifacts',
+    version: '15.0.0',
+    category: '戦闘・成長',
+    side: 'both',
+    status: 'planned',
+    summary: '探索で入手できる特殊能力付きアクセサリーを追加します。',
+    details: 'ダンジョンや宝箱を探す目的が増え、移動・採掘・戦闘を支援する装備を集められます。',
+  },
+  {
+    name: 'Basic Weapons',
+    version: '2.4.0+26.1.x',
+    category: '戦闘・成長',
+    side: 'both',
+    status: 'planned',
+    summary: 'ダガー、ハンマー、パイク、グレイブなどを追加します。',
+    details: '武器ごとに速度、リーチ、攻撃力が異なり、Better Combatと組み合わせて戦い方の選択肢を増やします。',
+  },
+  {
+    name: 'Forbidden and Arcanus',
+    version: '2.7.2',
+    category: '戦闘・成長',
+    side: 'both',
+    status: 'planned',
+    summary: '魔法素材、儀式、武器、防具、装飾を追加します。',
+    details: '生活・探索の延長で魔法技術を発展させられるMODです。必須依存のValhelsia Coreと一緒に導入します。',
+  },
+  {
+    name: 'Illager Invasion',
+    version: 'Minecraft 26.1.2対応固定版',
+    category: '戦闘・成長',
+    side: 'both',
+    status: 'planned',
+    summary: '新しいIllager、敵対構造物、襲撃要素を追加します。',
+    details: '通常世界とレイドに強敵を増やし、装備を整えた後の戦闘目標を作ります。',
+  },
+  {
+    name: 'Gateways to Eternity',
+    version: '6.0.2',
+    category: '戦闘・成長',
+    side: 'both',
+    status: 'planned',
+    summary: 'ゲートから出現する敵を連続で倒すウェーブ戦を追加します。',
+    details: '装備や魔法を強化した後の高難度コンテンツとして採用予定です。同時開催数を制限してサーバー負荷を管理します。',
+  },
+  {
+    name: 'JEI',
+    version: 'Minecraft 26.1.2対応固定版',
+    category: '情報・操作',
+    side: 'client',
+    status: 'installed',
+    summary: 'アイテムとレシピをゲーム内で検索できます。',
+    details: '追加MODの素材やクラフト方法を確認するための基本UIです。参加者のクライアントだけへ導入します。',
+  },
+  {
+    name: 'Jade',
+    version: 'Minecraft 26.1.2対応固定版',
+    category: '情報・操作',
+    side: 'client',
+    status: 'installed',
+    summary: '見ているブロックやMobの情報を画面に表示します。',
+    details: 'ブロック名、状態、収納内容、成長段階などを確認しやすくします。',
+  },
+  {
+    name: 'AppleSkin',
+    version: 'Minecraft 26.1.2対応固定版',
+    category: '情報・操作',
+    side: 'client',
+    status: 'installed',
+    summary: '食べ物の満腹度と隠し満腹度を表示します。',
+    details: '多数の料理の性能を比較しやすくなります。',
+  },
+  {
+    name: 'Inventory Essentials',
+    version: 'Minecraft 26.1.2対応固定版',
+    category: '情報・操作',
+    side: 'client',
+    status: 'installed',
+    summary: 'インベントリ操作を便利にします。',
+    details: 'アイテム移動や整理に使う基本操作を増やし、収納作業の手間を減らします。',
+  },
+  {
+    name: 'Crafting Tweaks',
+    version: 'Minecraft 26.1.2対応固定版',
+    category: '情報・操作',
+    side: 'client',
+    status: 'installed',
+    summary: 'クラフトグリッドの回転・均等配置・一括削除を追加します。',
+    details: '大量クラフト時の素材配置を簡単にします。',
+  },
+  {
+    name: 'TrashSlot',
+    version: 'Minecraft 26.1.2対応固定版',
+    category: '情報・操作',
+    side: 'client',
+    status: 'installed',
+    summary: '不要なアイテムを削除する専用スロットを追加します。',
+    details: '探索や建築中に不要アイテムを素早く処分できます。誤操作には注意してください。',
+  },
+  {
+    name: 'Mouse Tweaks',
+    version: 'Minecraft 26.1.2対応固定版',
+    category: '情報・操作',
+    side: 'client',
+    status: 'installed',
+    summary: 'ドラッグ操作によるアイテム移動を改善します。',
+    details: 'チェスト整理やクラフト時にマウス操作で複数スロットを扱いやすくします。',
+  },
+  {
+    name: 'Controlling',
+    version: 'Minecraft 26.1.2対応固定版',
+    category: '情報・操作',
+    side: 'client',
+    status: 'installed',
+    summary: 'キー設定を検索し、競合を見つけやすくします。',
+    details: 'MODが増えてキー割り当てが多くなっても、機能名やキーから設定を探せます。',
+  },
+  {
+    name: 'AmbientSounds',
+    version: 'Minecraft 26.1.2対応待ち・検証対象',
+    category: '軽量化・演出',
+    side: 'client',
+    status: 'waiting',
+    summary: '環境に応じた自然音や空間音を追加します。',
+    details: '森、洞窟、海などの雰囲気を豊かにします。対応版が確認できた時点でクライアントプロファイルへ追加します。',
+  },
+  {
+    name: 'Sound Physics Remastered',
+    version: 'Minecraft 26.1.2対応固定版',
+    category: '軽量化・演出',
+    side: 'client',
+    status: 'installed',
+    summary: '壁や洞窟に応じた反響・遮音を追加します。',
+    details: '建物や洞窟の中で声や効果音の響き方が変わり、空間を感じやすくなります。',
+  },
+  {
+    name: 'Not Enough Animations',
+    version: 'Minecraft 26.1.2対応固定版',
+    category: '軽量化・演出',
+    side: 'client',
+    status: 'installed',
+    summary: '三人称視点のプレイヤーアニメーションを増やします。',
+    details: '地図を見る、食べる、道具を使うなどの動作を自然に表示します。',
+  },
+  {
+    name: 'Skin Layers 3D',
+    version: 'Minecraft 26.1.2対応固定版',
+    category: '軽量化・演出',
+    side: 'client',
+    status: 'installed',
+    summary: 'スキンの外側レイヤーを立体的に表示します。',
+    details: '髪や衣装の外側レイヤーに厚みが付き、プレイヤーの見た目が自然になります。',
+  },
+  {
+    name: 'Shoulder Surfing Reloaded',
+    version: 'Minecraft 26.1.2対応固定版',
+    category: '軽量化・演出',
+    side: 'client',
+    status: 'installed',
+    summary: '肩越しの三人称カメラを追加します。',
+    details: '建築、探索、Better Combatの戦闘を見やすい視点で操作できます。',
+  },
+  {
+    name: 'Eating Animation Fork',
+    version: 'Minecraft 26.1.2対応固定版',
+    category: '軽量化・演出',
+    side: 'client',
+    status: 'installed',
+    summary: '食べ物を手に持って食べるアニメーションを追加します。',
+    details: '料理MODで追加された食事の見た目を豊かにします。',
+  },
+  {
+    name: 'Chat Heads',
+    version: 'Minecraft 26.1.2対応固定版',
+    category: '軽量化・演出',
+    side: 'client',
+    status: 'installed',
+    summary: 'チャット欄に発言者のスキンアイコンを表示します。',
+    details: '複数人で会話しているときに、誰の発言か判断しやすくします。',
+  },
+  {
+    name: 'Sodium',
+    version: 'Minecraft 26.1.2対応固定版',
+    category: '軽量化・演出',
+    side: 'client',
+    status: 'installed',
+    summary: '描画処理を最適化してFPSを改善します。',
+    details: '多数のブロックやエンティティがある拠点でも、クライアント側の描画負荷を減らします。',
+  },
+  {
+    name: 'ImmediatelyFast',
+    version: 'Minecraft 26.1.2対応固定版',
+    category: '軽量化・演出',
+    side: 'client',
+    status: 'installed',
+    summary: 'GUIやエンティティなどの描画を最適化します。',
+    details: 'インベントリ画面や多数の表示要素がある場面のパフォーマンスを改善します。',
+  },
+  {
+    name: 'Entity Culling',
+    version: 'Minecraft 26.1.2対応固定版',
+    category: '軽量化・演出',
+    side: 'client',
+    status: 'installed',
+    summary: '見えていないエンティティやブロックの描画を省略します。',
+    details: '壁の裏など画面に映らない対象を描画しないことでFPSを改善します。',
+  },
+  {
+    name: 'Dynamic FPS',
+    version: 'Minecraft 26.1.2対応固定版',
+    category: '軽量化・演出',
+    side: 'client',
+    status: 'installed',
+    summary: '非アクティブ時のFPSと負荷を抑えます。',
+    details: '別ウィンドウを操作している間のCPU・GPU使用量を減らします。',
+  },
+  {
+    name: 'FTB Library',
+    version: '26.1.2.6',
+    category: '依存ライブラリ',
+    side: 'both',
+    status: 'installed',
+    summary: 'FTB TeamsやFTB Questsが利用する共通ライブラリです。',
+    details: '単体で遊びを追加するMODではありませんが、FTB系画面とデータ処理に必要です。',
+  },
+  {
+    name: 'BaguetteLib',
+    version: 'Minecraft 26.1.2対応固定版',
+    category: '依存ライブラリ',
+    side: 'both',
+    status: 'installed',
+    summary: 'Leaderboardsなどが利用する共通ライブラリです。',
+    details: '参加者が直接操作する機能は少なく、対応MODを動作させるために必要です。',
+  },
+  {
+    name: 'Sophisticated Core',
+    version: '1.4.93.2195',
+    category: '依存ライブラリ',
+    side: 'both',
+    status: 'installed',
+    summary: 'Sophisticated BackpacksとStorageの共通基盤です。',
+    details: 'アップグレード、フィルター、GUIなどの共通機能を提供します。',
+  },
+  {
+    name: 'Lithostitched',
+    version: 'Minecraft 26.1.2対応固定版',
+    category: '依存ライブラリ',
+    side: 'both',
+    status: 'installed',
+    summary: 'ワールド生成MODが利用する共通基盤です。',
+    details: 'Regions Unexploredなどの地形・バイオーム生成を支えます。',
+  },
+  {
+    name: 'GuideME',
+    version: 'Minecraft 26.1.2対応固定版',
+    category: '依存ライブラリ',
+    side: 'both',
+    status: 'installed',
+    summary: 'AE2のゲーム内ガイドを表示する基盤です。',
+    details: 'AE2の説明書やチュートリアル画面に必要です。',
+  },
+  {
+    name: 'EpheroLib',
+    version: '26.1-1.3.0',
+    category: '依存ライブラリ',
+    side: 'both',
+    status: 'installed',
+    summary: 'Croptopiaが利用する共通ライブラリです。',
+    details: '作物や料理の登録処理などを支えます。',
+  },
+  {
+    name: 'SuperMartijn642 Config Lib',
+    version: 'File 8306682',
+    category: '依存ライブラリ',
+    side: 'both',
+    status: 'installed',
+    summary: '対応MODの設定画面・設定ファイルを支えるライブラリです。',
+    details: 'Rechiseledなどの依存関係として導入されています。',
+  },
+  {
+    name: 'SuperMartijn642 Core Lib',
+    version: 'File 8526988',
+    category: '依存ライブラリ',
+    side: 'both',
+    status: 'installed',
+    summary: '複数の建築MODが共通利用するライブラリです。',
+    details: 'ゲーム内容を直接増やすものではなく、対応MODを動かすために必要です。',
+  },
+  {
+    name: 'Fusion',
+    version: 'File 8479911',
+    category: '依存ライブラリ',
+    side: 'both',
+    status: 'installed',
+    summary: '接続テクスチャなど高度なモデル表示を支えるライブラリです。',
+    details: 'Rechiseledなどの装飾ブロックを正しく描画するために使われます。',
+  },
+  {
+    name: 'Cloth Config API',
+    version: '26.1.154',
+    category: '依存ライブラリ',
+    side: 'both',
+    status: 'installed',
+    summary: 'MOD設定画面を提供する共通ライブラリです。',
+    details: '複数MODのクライアント設定をゲーム内で変更できるようにします。',
+  },
+  {
+    name: 'Player Animation Library',
+    version: '1.2.5+mc.26.1',
+    category: '依存ライブラリ',
+    side: 'both',
+    status: 'installed',
+    summary: 'Better Combatなどが利用するプレイヤーアニメーション基盤です。',
+    details: '追加された攻撃モーションをサーバーとクライアントで同期するために必要です。',
+  },
+  {
+    name: 'Placebo',
+    version: '10.0.2',
+    category: '依存ライブラリ',
+    side: 'both',
+    status: 'installed',
+    summary: 'Apotheosis系MODが利用する共通ライブラリです。',
+    details: '装備、レジストリ、データ駆動コンテンツなどの基盤を提供します。',
+  },
+  {
+    name: 'Apothic Attributes',
+    version: 'Minecraft 26.1.2対応固定版',
+    category: '依存ライブラリ',
+    side: 'both',
+    status: 'installed',
+    summary: '追加能力値と装備効果の基盤です。',
+    details: 'ApotheosisやGatewaysなどが追加する戦闘能力値を処理します。',
+  },
+  {
+    name: 'Puzzles Lib',
+    version: '26.1.12',
+    category: '依存ライブラリ',
+    side: 'both',
+    status: 'planned',
+    summary: 'Visual Workbenchなどが利用する共通ライブラリです。',
+    details: '本番導入予定MODの依存関係として同時導入します。',
+  },
+  {
+    name: 'Balm',
+    version: '26.1.2.10',
+    category: '依存ライブラリ',
+    side: 'both',
+    status: 'installed',
+    summary: 'WaystonesやFarming for Blockheadsが利用する共通ライブラリです。',
+    details: '設定、ネットワーク、共通処理を提供します。',
+  },
+  {
+    name: 'Valhelsia Core',
+    version: 'Minecraft 26.1.2対応固定版',
+    category: '依存ライブラリ',
+    side: 'both',
+    status: 'planned',
+    summary: 'Forbidden and Arcanusの必須ライブラリです。',
+    details: '魔法アイテム、データ登録、共通処理を支えます。',
+  },
+  {
+    name: "L_Ender's Cataclysm",
+    version: '26.1.2対応待ち',
+    category: '戦闘・成長',
+    side: 'both',
+    status: 'waiting',
+    summary: '大型ボス、ダンジョン、強力な装備を追加する候補MODです。',
+    details: '希望する高難度ボス要素に合いますが、現在の固定環境へ対応するまでは旧版を流用しません。',
+  },
+  {
+    name: "Iron's Spells 'n Spellbooks",
+    version: '26.1.2対応待ち',
+    category: '戦闘・成長',
+    side: 'both',
+    status: 'waiting',
+    summary: '多数の魔法、魔導書、装備、ボスを追加する候補MODです。',
+    details: '対応版が公開されたら、Forbidden and Arcanusとの役割重複と負荷を検証します。',
+  },
+  {
+    name: 'Create',
+    version: '26.1.2対応待ち',
+    category: '収納・自動化',
+    side: 'both',
+    status: 'waiting',
+    summary: '回転動力を使った機械・物流・自動化を追加する大型工業MODです。',
+    details: '生活鯖の工業要素として導入方針ですが、NeoForge 26.1.2の安定対応版を待っています。',
+  },
+];
+
+const statusLabels: Record<ModStatus, string> = {
+  installed: '導入済み',
+  planned: '導入予定',
+  waiting: '対応待ち',
+};
+
+const sideLabels: Record<ModSide, string> = {
+  both: 'サーバー＋クライアント',
+  server: 'サーバーのみ',
+  client: 'クライアントのみ',
+};
+
+const installedCount = mods.filter((mod) => mod.status === 'installed').length;
+const plannedCount = mods.filter((mod) => mod.status === 'planned').length;
+const waitingCount = mods.filter((mod) => mod.status === 'waiting').length;
+const categories = [...new Set(mods.map((mod) => mod.category))];
+---
+
+<section class="mod-catalog" data-mod-catalog>
+  <div class="mod-catalog__summary" aria-label="MOD一覧の集計">
+    <div>
+      <span>公開カタログ</span>
+      <strong>{mods.length}</strong>
+      <small>MOD・依存ライブラリ</small>
+    </div>
+    <div>
+      <span>現在の構成</span>
+      <strong>{installedCount}</strong>
+      <small>導入済みとして掲載</small>
+    </div>
+    <div>
+      <span>拡張計画</span>
+      <strong>{plannedCount}</strong>
+      <small>導入・検証予定</small>
+    </div>
+    <div>
+      <span>対応待ち</span>
+      <strong>{waitingCount}</strong>
+      <small>旧版を流用しない</small>
+    </div>
+  </div>
+
+  <div class="mod-catalog__notice">
+    <strong>一覧の読み方</strong>
+    <p>
+      「導入済み」は安定構成または配布クライアントで利用するもの、
+      「導入予定」は本番反映・接続試験が残っているものです。
+      JAR数には内部ライブラリも含まれるため、この公開カタログの件数とは一致しない場合があります。
+    </p>
+  </div>
+
+  <div class="mod-catalog__controls" aria-label="MOD一覧の絞り込み">
+    <label>
+      <span>名前・説明から検索</span>
+      <input type="search" placeholder="例: 農業、AE2、ボイスチャット" data-mod-search />
+    </label>
+    <label>
+      <span>カテゴリ</span>
+      <select data-mod-category>
+        <option value="">すべて</option>
+        {categories.map((category) => <option value={category}>{category}</option>)}
+      </select>
+    </label>
+    <label>
+      <span>導入先</span>
+      <select data-mod-side>
+        <option value="">すべて</option>
+        <option value="both">サーバー＋クライアント</option>
+        <option value="server">サーバーのみ</option>
+        <option value="client">クライアントのみ</option>
+      </select>
+    </label>
+    <label>
+      <span>状態</span>
+      <select data-mod-status>
+        <option value="">すべて</option>
+        <option value="installed">導入済み</option>
+        <option value="planned">導入予定</option>
+        <option value="waiting">対応待ち</option>
+      </select>
+    </label>
+  </div>
+
+  <div class="mod-catalog__result-line" aria-live="polite">
+    <span><strong data-mod-result-count>{mods.length}</strong>件を表示</span>
+    <button type="button" data-mod-reset>絞り込みを解除</button>
+  </div>
+
+  <div class="mod-catalog__grid">
+    {mods.map((mod) => (
+      <article
+        class="mod-card"
+        data-mod-item
+        data-name={`${mod.name} ${mod.summary} ${mod.details}`.toLowerCase()}
+        data-category={mod.category}
+        data-side={mod.side}
+        data-status={mod.status}
+      >
+        <header>
+          <div>
+            <span class:list={['mod-card__status', `is-${mod.status}`]}>
+              {statusLabels[mod.status]}
+            </span>
+            <span class="mod-card__category">{mod.category}</span>
+          </div>
+          <h2>{mod.name}</h2>
+          <p>{mod.summary}</p>
+        </header>
+        <dl>
+          <div>
+            <dt>バージョン</dt>
+            <dd>{mod.version}</dd>
+          </div>
+          <div>
+            <dt>導入先</dt>
+            <dd>{sideLabels[mod.side]}</dd>
+          </div>
+        </dl>
+        <p class="mod-card__details">{mod.details}</p>
+      </article>
+    ))}
+  </div>
+
+  <p class="mod-catalog__empty" data-mod-empty hidden>
+    条件に一致するMODがありません。検索語または絞り込み条件を変更してください。
+  </p>
+</section>
+
+<style>
+  .mod-catalog { display: grid; gap: 1.4rem; margin-block: 1.5rem 3rem; }
+  .mod-catalog__summary { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.75rem; }
+  .mod-catalog__summary > div { padding: 1rem; border: 1px solid var(--sl-color-gray-5); border-radius: 0.9rem; background: var(--sl-color-bg-nav); }
+  .mod-catalog__summary span, .mod-catalog__summary small { display: block; color: var(--sl-color-gray-2); }
+  .mod-catalog__summary strong { display: block; margin-block: 0.25rem; color: var(--sl-color-text); font-size: 1.85rem; line-height: 1; }
+  .mod-catalog__notice { padding: 1rem 1.1rem; border-inline-start: 0.25rem solid var(--sl-color-accent); background: var(--sl-color-accent-low); }
+  .mod-catalog__notice p { margin: 0.35rem 0 0; }
+  .mod-catalog__controls { display: grid; grid-template-columns: minmax(14rem, 1.6fr) repeat(3, minmax(9rem, 1fr)); gap: 0.75rem; align-items: end; }
+  .mod-catalog__controls label { display: grid; gap: 0.35rem; color: var(--sl-color-gray-2); font-size: 0.85rem; font-weight: 600; }
+  .mod-catalog__controls input, .mod-catalog__controls select { width: 100%; min-height: 2.65rem; padding: 0.65rem 0.75rem; border: 1px solid var(--sl-color-gray-5); border-radius: 0.65rem; color: var(--sl-color-text); background: var(--sl-color-bg); font: inherit; }
+  .mod-catalog__controls input:focus, .mod-catalog__controls select:focus { outline: 2px solid var(--sl-color-accent); outline-offset: 2px; }
+  .mod-catalog__result-line { display: flex; gap: 0.35rem; align-items: center; justify-content: space-between; color: var(--sl-color-gray-2); }
+  .mod-catalog__result-line strong { color: var(--sl-color-text); }
+  .mod-catalog__result-line button { border: 0; color: var(--sl-color-accent-high); background: transparent; cursor: pointer; font: inherit; font-weight: 600; }
+  .mod-catalog__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+  .mod-card { display: grid; align-content: start; gap: 1rem; padding: 1.1rem; border: 1px solid var(--sl-color-gray-5); border-radius: 0.9rem; background: var(--sl-color-bg-nav); }
+  .mod-card[hidden] { display: none; }
+  .mod-card header > div { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.65rem; }
+  .mod-card h2 { margin: 0; font-size: 1.15rem; }
+  .mod-card header p { margin: 0.4rem 0 0; color: var(--sl-color-gray-2); }
+  .mod-card__status, .mod-card__category { display: inline-flex; align-items: center; min-height: 1.6rem; padding-inline: 0.55rem; border-radius: 999px; font-size: 0.75rem; font-weight: 700; }
+  .mod-card__status { color: var(--sl-color-accent-high); background: var(--sl-color-accent-low); }
+  .mod-card__status.is-planned { color: var(--sl-color-orange-high); background: var(--sl-color-orange-low); }
+  .mod-card__status.is-waiting { color: var(--sl-color-gray-1); background: var(--sl-color-gray-6); }
+  .mod-card__category { color: var(--sl-color-gray-2); background: var(--sl-color-gray-6); }
+  .mod-card dl { display: grid; gap: 0.55rem; margin: 0; }
+  .mod-card dl > div { display: grid; grid-template-columns: 5.25rem minmax(0, 1fr); gap: 0.6rem; padding-block: 0.45rem; border-block-end: 1px solid var(--sl-color-gray-6); }
+  .mod-card dt { color: var(--sl-color-gray-2); font-size: 0.8rem; font-weight: 700; }
+  .mod-card dd { margin: 0; overflow-wrap: anywhere; }
+  .mod-card__details { margin: 0; }
+  .mod-catalog__empty { padding: 2rem 1rem; text-align: center; color: var(--sl-color-gray-2); border: 1px dashed var(--sl-color-gray-5); border-radius: 0.9rem; }
+  @media (max-width: 52rem) {
+    .mod-catalog__summary { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .mod-catalog__controls { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 36rem) {
+    .mod-catalog__summary, .mod-catalog__controls, .mod-catalog__grid { grid-template-columns: 1fr; }
+    .mod-catalog__result-line { align-items: flex-start; flex-direction: column; }
+  }
+</style>
+
+<script>
+  const bindModCatalog = () => {
+    document.querySelectorAll<HTMLElement>('[data-mod-catalog]').forEach((catalog) => {
+      if (catalog.dataset.bound === 'true') return;
+      catalog.dataset.bound = 'true';
+
+      const search = catalog.querySelector<HTMLInputElement>('[data-mod-search]');
+      const category = catalog.querySelector<HTMLSelectElement>('[data-mod-category]');
+      const side = catalog.querySelector<HTMLSelectElement>('[data-mod-side]');
+      const status = catalog.querySelector<HTMLSelectElement>('[data-mod-status]');
+      const reset = catalog.querySelector<HTMLButtonElement>('[data-mod-reset]');
+      const count = catalog.querySelector<HTMLElement>('[data-mod-result-count]');
+      const empty = catalog.querySelector<HTMLElement>('[data-mod-empty]');
+      const items = [...catalog.querySelectorAll<HTMLElement>('[data-mod-item]')];
+
+      if (!search || !category || !side || !status || !reset || !count || !empty) return;
+
+      const apply = () => {
+        const query = search.value.trim().toLowerCase();
+        let visible = 0;
+
+        items.forEach((item) => {
+          const matches =
+            (!query || item.dataset.name?.includes(query)) &&
+            (!category.value || item.dataset.category === category.value) &&
+            (!side.value || item.dataset.side === side.value) &&
+            (!status.value || item.dataset.status === status.value);
+
+          item.hidden = !matches;
+          if (matches) visible += 1;
+        });
+
+        count.textContent = String(visible);
+        empty.hidden = visible !== 0;
+      };
+
+      [search, category, side, status].forEach((control) => {
+        control.addEventListener(control === search ? 'input' : 'change', apply);
+      });
+
+      reset.addEventListener('click', () => {
+        search.value = '';
+        category.value = '';
+        side.value = '';
+        status.value = '';
+        apply();
+        search.focus();
+      });
+
+      apply();
+    });
+  };
+
+  document.addEventListener('astro:page-load', bindModCatalog);
+  bindModCatalog();
+</script>
