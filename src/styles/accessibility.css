@@ -1,0 +1,204 @@
+/*
+ * Accessibility quality layer
+ *
+ * This stylesheet is loaded after the visual theme styles so focus visibility,
+ * target sizing, contrast preferences and Windows forced-colors behavior stay
+ * consistent across Starlight and IVRM custom components.
+ */
+
+:root {
+  --ivrm-focus-ring: #6fe0ff;
+  --ivrm-focus-ring-outer: rgba(8, 12, 24, 0.9);
+}
+
+:root[data-theme='light'] {
+  --ivrm-focus-ring: #173fa8;
+  --ivrm-focus-ring-outer: rgba(255, 255, 255, 0.95);
+}
+
+/* A single visible keyboard-focus treatment for links, controls and cards. */
+:where(
+  a[href],
+  button,
+  input,
+  select,
+  textarea,
+  summary,
+  [tabindex]:not([tabindex='-1'])
+):focus-visible {
+  outline: 3px solid var(--ivrm-focus-ring);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 2px var(--ivrm-focus-ring-outer);
+}
+
+:where(
+  .ivrm-button,
+  .ivrm-home-search,
+  .ivrm-category-card,
+  .ivrm-popular-card,
+  .sl-link-card,
+  .card,
+  .ivrm-floating-help__launcher
+):focus-visible {
+  border-color: var(--ivrm-focus-ring);
+  box-shadow:
+    0 0 0 2px var(--ivrm-focus-ring-outer),
+    0 0 0 5px var(--ivrm-focus-ring),
+    var(--ivrm-shadow-soft);
+  transform: translateY(-2px);
+}
+
+/* The previous cyan end of the CTA gradient was too light for white text. */
+.ivrm-home-cta {
+  border-color: rgba(157, 194, 255, 0.48);
+  background:
+    radial-gradient(circle at 86% 20%, rgba(136, 65, 206, 0.34), transparent 18rem),
+    linear-gradient(110deg, #173b91 0%, #334eaa 46%, #3b3f88 100%);
+  box-shadow: 0 24px 60px rgba(23, 48, 123, 0.38);
+}
+
+.ivrm-home-cta__copy p {
+  color: #f1f4ff;
+}
+
+.ivrm-button--primary {
+  background: linear-gradient(105deg, #07599e, #464bb7 52%, #7133ad);
+  box-shadow: 0 14px 32px rgba(38, 45, 139, 0.4);
+}
+
+.ivrm-button--cta {
+  background: linear-gradient(105deg, #3049a7, #63299d);
+  box-shadow: 0 14px 34px rgba(39, 28, 111, 0.42);
+}
+
+/* WCAG 2.5.8-friendly pointer target minimums for header and chat controls. */
+header.header :where(button, [role='button'], a[href]:not(.site-title)) {
+  min-height: 2.75rem;
+}
+
+header.header :where(button, [role='button']) {
+  min-width: 2.75rem;
+}
+
+.ivrm-floating-help__panel-header > button {
+  width: 2.75rem;
+  min-width: 2.75rem;
+  min-height: 2.75rem;
+}
+
+.ivrm-floating-help :where(button, input, select, textarea),
+.ivrm-assistant :where(button, input, select, textarea) {
+  min-height: 2.75rem;
+}
+
+/* Increase borders and text separation when the OS requests more contrast. */
+@media (prefers-contrast: more) {
+  :root {
+    --ivrm-border: rgba(220, 229, 255, 0.5);
+    --ivrm-border-strong: rgba(232, 238, 255, 0.78);
+    --ivrm-muted: #d4daea;
+  }
+
+  :root[data-theme='light'] {
+    --ivrm-border: rgba(25, 36, 74, 0.48);
+    --ivrm-border-strong: rgba(18, 28, 64, 0.72);
+    --ivrm-muted: #384158;
+  }
+
+  :where(
+    a[href],
+    button,
+    input,
+    select,
+    textarea,
+    summary,
+    [tabindex]:not([tabindex='-1'])
+  ):focus-visible {
+    outline-width: 4px;
+    outline-offset: 4px;
+  }
+
+  .ivrm-home-cta,
+  .ivrm-button--primary,
+  .ivrm-button--cta {
+    background-image: none;
+    background-color: #182f78;
+  }
+
+  .card,
+  .sl-link-card,
+  .ivrm-category-card,
+  .ivrm-popular-card,
+  .ivrm-assistant__window,
+  .ivrm-floating-help__panel {
+    border-width: 2px;
+  }
+}
+
+/* Keep all essential controls and states visible in Windows High Contrast. */
+@media (forced-colors: active) {
+  :root {
+    --ivrm-focus-ring: Highlight;
+    --ivrm-focus-ring-outer: Canvas;
+  }
+
+  body,
+  header.header,
+  .sidebar-pane,
+  .ivrm-home-hero,
+  .ivrm-home-cta,
+  .ivrm-assistant,
+  .ivrm-assistant__window,
+  .ivrm-floating-help__launcher,
+  .ivrm-floating-help__panel,
+  .ivrm-category-card,
+  .ivrm-popular-card,
+  .card,
+  .sl-link-card {
+    background: Canvas;
+    color: CanvasText;
+    box-shadow: none;
+  }
+
+  :where(
+    .ivrm-button,
+    .ivrm-home-search,
+    .ivrm-category-card,
+    .ivrm-popular-card,
+    .card,
+    .sl-link-card,
+    .ivrm-floating-help__launcher,
+    .ivrm-floating-help__panel-header > button
+  ) {
+    border: 2px solid ButtonText;
+    color: ButtonText;
+    background: ButtonFace;
+    box-shadow: none;
+    forced-color-adjust: auto;
+  }
+
+  :where(a[href], button, input, select, textarea, summary):focus-visible {
+    outline: 3px solid Highlight;
+    outline-offset: 4px;
+    box-shadow: none;
+  }
+
+  .ivrm-floating-help__notification,
+  .ivrm-assistant__status-dot,
+  .ivrm-assistant__badge::before {
+    border: 2px solid CanvasText;
+    background: Highlight;
+    box-shadow: none;
+  }
+
+  .ivrm-home-hero__scene,
+  .ivrm-home-hero::before,
+  .ivrm-home-hero::after,
+  .ivrm-home-cta::before,
+  .ivrm-assistant::before,
+  .ivrm-assistant::after,
+  .ivrm-assistant__orb,
+  .ivrm-assistant__sparkles {
+    display: none;
+  }
+}
