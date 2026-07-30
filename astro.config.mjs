@@ -49,6 +49,7 @@ export default defineConfig({
         './src/styles/home-search.css',
         './src/styles/help-experience.css',
         './src/styles/floating-help.css',
+        './src/styles/accessibility.css',
       ],
       components: {
         PageFrame: './src/components/CustomPageFrame.astro',

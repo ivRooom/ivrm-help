@@ -12,7 +12,8 @@
     "check:public": "node scripts/check-public-content.mjs",
     "check:links": "node scripts/check-internal-links.mjs",
     "check:repository": "npm run check:public && npm run check:links",
-    "verify:site": "node scripts/verify-build.mjs"
+    "check:accessibility": "node scripts/check-accessibility.mjs",
+    "verify:site": "node scripts/verify-build.mjs && npm run check:accessibility"
   },
   "dependencies": {
     "@astrojs/starlight": "latest",
