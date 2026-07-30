@@ -106,6 +106,8 @@ export default defineConfig({
           label: 'Minecraft',
           items: [
             { slug: 'minecraft' },
+            { slug: 'minecraft/main-server' },
+            { slug: 'minecraft/mods' },
             { slug: 'minecraft/how-to-join' },
             { slug: 'minecraft/rules' },
             { slug: 'minecraft/game-modes' },
