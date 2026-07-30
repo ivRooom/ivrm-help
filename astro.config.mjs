@@ -48,8 +48,10 @@ export default defineConfig({
         './src/styles/custom.css',
         './src/styles/home-search.css',
         './src/styles/help-experience.css',
+        './src/styles/floating-help.css',
       ],
       components: {
+        PageFrame: './src/components/CustomPageFrame.astro',
         Footer: './src/components/CustomFooter.astro',
       },
       pagefind: true,
@@ -121,7 +123,6 @@ export default defineConfig({
           label: 'サポート',
           translations: { en: 'Support' },
           items: [
-            { slug: 'support/assistant' },
             { slug: 'support/faq' },
             { slug: 'support/report-a-problem' },
           ],

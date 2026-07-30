@@ -47,13 +47,21 @@ const requiredUrls = [
   new URL('en/', baseUrl).href,
   new URL('minecraft/how-to-join/', baseUrl).href,
   new URL('en/minecraft/how-to-join/', baseUrl).href,
-  new URL('support/assistant/', baseUrl).href,
-  new URL('en/support/assistant/', baseUrl).href,
 ];
 
 for (const url of requiredUrls) {
   if (!sitemap.includes(`<loc>${url}</loc>`)) {
     throw new Error(`サイトマップに必要なURLがありません: ${url}`);
+  }
+}
+
+const removedAssistantUrls = [
+  new URL('support/assistant/', baseUrl).href,
+  new URL('en/support/assistant/', baseUrl).href,
+];
+for (const url of removedAssistantUrls) {
+  if (sitemap.includes(`<loc>${url}</loc>`)) {
+    throw new Error(`撤去した本文内チャットページがサイトマップに残っています: ${url}`);
   }
 }
 
@@ -94,11 +102,36 @@ if (!indexHtml.includes(`${deployedPrefix}favicon.svg`)) {
   throw new Error('faviconがデプロイ先のベースパスを参照していません。');
 }
 
+const representativePages = [
+  ['日本語トップページ', path.join(dist, 'index.html')],
+  ['英語トップページ', path.join(dist, 'en', 'index.html')],
+  ['日本語記事ページ', path.join(dist, 'minecraft', 'how-to-join', 'index.html')],
+  ['英語記事ページ', path.join(dist, 'en', 'minecraft', 'how-to-join', 'index.html')],
+];
+
+for (const [label, pagePath] of representativePages) {
+  const html = await readFile(pagePath, 'utf8');
+  if (!html.includes('data-ivrm-floating-help')) {
+    throw new Error(`${label}にフローティングチャットBotがありません。`);
+  }
+  if (!html.includes('data-ivrm-floating-help-open')) {
+    throw new Error(`${label}にチャットBot起動ボタンがありません。`);
+  }
+  if (!html.includes('data-ivrm-floating-help-dialog')) {
+    throw new Error(`${label}にチャットBotダイアログがありません。`);
+  }
+  if (!html.includes(`${deployedPrefix}pagefind/pagefind.js`)) {
+    throw new Error(`${label}のチャットBotがPagefind APIを参照していません。`);
+  }
+  if (!html.includes('data-ivrm-global-footer')) {
+    throw new Error(`${label}に共通フッターがありません。`);
+  }
+}
+
 const localizedHomePages = [
   ['日本語', path.join(dist, 'index.html')],
   ['英語', path.join(dist, 'en', 'index.html')],
 ];
-
 for (const [locale, homePath] of localizedHomePages) {
   const html = await readFile(homePath, 'utf8');
   if (!html.includes('data-ivrm-open-search')) {
@@ -107,26 +140,28 @@ for (const [locale, homePath] of localizedHomePages) {
   if (!html.includes('<site-search')) {
     throw new Error(`${locale}トップページにStarlight標準検索がありません。`);
   }
-  if (!html.includes('data-ivrm-assistant')) {
-    throw new Error(`${locale}トップページにチャット検索がありません。`);
-  }
-  if (!html.includes('data-ivrm-global-footer')) {
-    throw new Error(`${locale}トップページに共通フッターがありません。`);
+}
+
+const homeSources = [
+  ['日本語', path.join(root, 'src', 'content', 'docs', 'index.mdx')],
+  ['英語', path.join(root, 'src', 'content', 'docs', 'en', 'index.mdx')],
+];
+for (const [locale, sourcePath] of homeSources) {
+  const source = await readFile(sourcePath, 'utf8');
+  if (source.includes('HelpAssistant')) {
+    throw new Error(`${locale}トップページに本文内チャットが残っています。`);
   }
 }
 
-const assistantPages = [
-  ['日本語', path.join(dist, 'support', 'assistant', 'index.html')],
-  ['英語', path.join(dist, 'en', 'support', 'assistant', 'index.html')],
-];
-
-for (const [locale, assistantPath] of assistantPages) {
-  const html = await readFile(assistantPath, 'utf8');
-  if (!html.includes('data-ivrm-assistant')) {
-    throw new Error(`${locale}チャット検索ページにアシスタントUIがありません。`);
-  }
-  if (!html.includes(`${deployedPrefix}pagefind/pagefind.js`)) {
-    throw new Error(`${locale}チャット検索ページがPagefind APIを参照していません。`);
+for (const removedPath of [
+  path.join(dist, 'support', 'assistant', 'index.html'),
+  path.join(dist, 'en', 'support', 'assistant', 'index.html'),
+]) {
+  try {
+    await access(removedPath);
+    throw new Error(`撤去した本文内チャットページが生成されています: ${path.relative(root, removedPath)}`);
+  } catch (error) {
+    if (error instanceof Error && error.message.startsWith('撤去した')) throw error;
   }
 }
 
@@ -137,7 +172,6 @@ const footerLinks = [
   'mailto:contact@ivrm.jp',
   'https://ivrm.jp/contact',
 ];
-
 for (const link of footerLinks) {
   if (!indexHtml.includes(link)) {
     throw new Error(`共通フッターに必要なリンクがありません: ${link}`);
@@ -162,6 +196,12 @@ if (!cssContents.some((content) => content.includes('.ivrm-home-search'))) {
 }
 if (!cssContents.some((content) => content.includes('.ivrm-assistant'))) {
   throw new Error('チャット検索UIのスタイルがビルド済みCSSへ含まれていません。');
+}
+if (!cssContents.some((content) => content.includes('.ivrm-floating-help__launcher'))) {
+  throw new Error('フローティングチャットBotのスタイルがビルド済みCSSへ含まれていません。');
+}
+if (!cssContents.some((content) => content.includes('ivrm-site-header'))) {
+  throw new Error('ヘッダー遷移安定化スタイルがビルド済みCSSへ含まれていません。');
 }
 if (!cssContents.some((content) => content.includes('.ivrm-global-footer'))) {
   throw new Error('共通フッターのスタイルがビルド済みCSSへ含まれていません。');

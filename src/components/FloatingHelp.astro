@@ -1,0 +1,126 @@
+---
+import HelpAssistant from './HelpAssistant.astro';
+
+const isEnglish = /\/en(?:\/|$)/.test(Astro.url.pathname);
+const lang = isEnglish ? 'en' : 'ja';
+const dialogId = `ivrm-floating-help-${lang}`;
+const copy = isEnglish
+  ? {
+      open: 'Ask IVRM Help',
+      openShort: 'Help',
+      title: 'Ask IVRM Help',
+      description: 'Search the Help Center in your own words.',
+      close: 'Close chat',
+      beta: 'Beta',
+    }
+  : {
+      open: 'IVRMヘルプに相談する',
+      openShort: '相談する',
+      title: 'IVRMヘルプに相談',
+      description: '困っていることを普段の言葉で検索できます。',
+      close: 'チャットを閉じる',
+      beta: 'ベータ',
+    };
+---
+
+<div class="ivrm-floating-help" data-ivrm-floating-help>
+  <button
+    class="ivrm-floating-help__launcher"
+    type="button"
+    aria-label={copy.open}
+    aria-haspopup="dialog"
+    aria-controls={dialogId}
+    aria-expanded="false"
+    data-ivrm-floating-help-open
+  >
+    <span class="ivrm-floating-help__launcher-icon" aria-hidden="true">
+      <span class="ivrm-floating-help__bot-face"></span>
+    </span>
+    <span class="ivrm-floating-help__launcher-copy">
+      <strong>{copy.openShort}</strong>
+      <small>{copy.beta}</small>
+    </span>
+    <span class="ivrm-floating-help__notification" aria-hidden="true"></span>
+  </button>
+
+  <dialog
+    id={dialogId}
+    class="ivrm-floating-help__dialog"
+    aria-labelledby={`${dialogId}-title`}
+    aria-describedby={`${dialogId}-description`}
+    data-ivrm-floating-help-dialog
+  >
+    <section class="ivrm-floating-help__panel">
+      <header class="ivrm-floating-help__panel-header">
+        <div class="ivrm-floating-help__panel-identity">
+          <span class="ivrm-floating-help__panel-icon" aria-hidden="true">✦</span>
+          <div>
+            <span>{copy.beta}</span>
+            <h2 id={`${dialogId}-title`}>{copy.title}</h2>
+            <p id={`${dialogId}-description`}>{copy.description}</p>
+          </div>
+        </div>
+        <button type="button" aria-label={copy.close} data-ivrm-floating-help-close>
+          <span aria-hidden="true">×</span>
+        </button>
+      </header>
+
+      <div class="ivrm-floating-help__content">
+        <HelpAssistant lang={lang} compact />
+      </div>
+    </section>
+  </dialog>
+</div>
+
+<script>
+  const closeFloatingHelp = (dialog: HTMLDialogElement | null) => {
+    if (!dialog) return;
+    if (dialog.open && typeof dialog.close === 'function') dialog.close();
+    else dialog.removeAttribute('open');
+    document.documentElement.classList.remove('ivrm-floating-help-open');
+    document.body?.classList.remove('ivrm-floating-help-open');
+  };
+
+  const bindFloatingHelp = () => {
+    document.querySelectorAll<HTMLElement>('[data-ivrm-floating-help]').forEach((root) => {
+      if (root.dataset.ivrmFloatingHelpBound === 'true') return;
+      root.dataset.ivrmFloatingHelpBound = 'true';
+
+      const launcher = root.querySelector<HTMLButtonElement>('[data-ivrm-floating-help-open]');
+      const dialog = root.querySelector<HTMLDialogElement>('[data-ivrm-floating-help-dialog]');
+      const closeButton = root.querySelector<HTMLButtonElement>('[data-ivrm-floating-help-close]');
+      if (!launcher || !dialog || !closeButton) return;
+
+      const openDialog = () => {
+        if (typeof dialog.showModal === 'function') dialog.showModal();
+        else dialog.setAttribute('open', '');
+        launcher.setAttribute('aria-expanded', 'true');
+        document.documentElement.classList.add('ivrm-floating-help-open');
+        document.body?.classList.add('ivrm-floating-help-open');
+        requestAnimationFrame(() => {
+          dialog.querySelector<HTMLInputElement>('[data-ivrm-assistant-input]')?.focus();
+        });
+      };
+
+      launcher.addEventListener('click', openDialog);
+      closeButton.addEventListener('click', () => closeFloatingHelp(dialog));
+      dialog.addEventListener('click', (event) => {
+        if (event.target === dialog) closeFloatingHelp(dialog);
+      });
+      dialog.addEventListener('close', () => {
+        launcher.setAttribute('aria-expanded', 'false');
+        document.documentElement.classList.remove('ivrm-floating-help-open');
+        document.body?.classList.remove('ivrm-floating-help-open');
+        launcher.focus({ preventScroll: true });
+      });
+    });
+  };
+
+  document.addEventListener('astro:before-swap', () => {
+    document.querySelectorAll<HTMLDialogElement>('[data-ivrm-floating-help-dialog]').forEach((dialog) => {
+      closeFloatingHelp(dialog);
+    });
+  });
+  document.addEventListener('astro:page-load', bindFloatingHelp);
+  bindFloatingHelp();
+</script>
