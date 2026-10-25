@@ -13,21 +13,21 @@ Reviewed: 2026-10-26 JST. This is a controlled checklist, **not** evidence of a 
 ### ローカル/CIのテスト仕様
 | Case | How | Expectation |
 | --- | --- | --- |
-| HELP-01 | `npm run check:public` | Token/秘密鍵/内部IP等の漏洩疑いなし |
+| HELP-01 | `npm run check:public` + 対象外の公開asset（SVG・画像・font等）の手動目視検査 | Checkerはテキスト系拡張子だけを走査。`public/**` と最終 `dist/**` の未走査バイナリ/外部配信先は別途レビューする。検査範囲外を自動合格扱いしない |
 | HELP-02 | `npm run check:links` | 内部Link/Anchorの参照整合 |
 | HELP-03 | `npm run check` | Astro型/MDX check成功 |
 | HELP-04 | `npm run build` | Astro build + `verify:site` + accessibility contract成功 |
 | HELP-05 | ブラウザで匿名 JA/EN 遷移 | 表示・Mobile・Keyboard・404・Navigation/検索が利用可能 |
 | HELP-06 | 内部運用文書の追加のみ | サイト公開内容/検索indexへの意図しない混入なし |
-| HELP-07 | Pagesデプロイ後の主なURLとリンク | 期待SHAの公開が確認できる |
+| HELP-07 | Pages deploy RunのCommit SHAとPages環境・重要URLの匿名表示を確認 | Workflow runが対象main commitをビルドした証跡を保存。現行サイトには公開bundle SHA readback実装がないため実公開SHAの一致は**未検証**として残す |
 
-実行結果は `.github/workflows/ci.yml` のworkflow run SHA・Job Logs、`deploy.yml` のPages Deploy SHA、手動UATの日時/環境/スクリーンショット等を保存する。**テストコード存在とCI成功を混同しない**。
+実行結果は `.github/workflows/ci.yml` のworkflow run commit SHA・Job Logs、`deploy.yml` が対象にしたmain push commit SHAとPages deploy run URL、手動UATの日時/環境/スクリーンショット等を保存する。現行コードは公開サイトからcommit SHAを読み戻せないため、`deploy-pages`成功をブラウザ表示されたbundleのSHA一致証明とはみなさない。**テストコード存在とCI成功を混同しない**。
 
 ### 本番公開
 1. PR review/CI完了、変更による公開対象の差分を確認する。GitHub Pagesの`main` Push deployは自動発動なので、マージは公開操作とみなす。
 2. `SITE_URL`、`BASE_PATH`、`Settings > Pages` (Source GitHub Actions)、Cloudflare DNSの現行値をread-onlyで確認。
 3. リンク切れ、公開禁止情報、操作説明の旧Version、英語翻訳の整合性、データ扱いを最終点検する。
-4. 承認された変更をマージし、GitHub Pages deploy Jobが成功し期待Commit SHAのbundleで公開されていることを確認。
+4. 承認された変更をマージし、`main`へpushされた対象SHA・GitHub Pages deploy Run/Job・artifact生成を照合する。現行の公開URLはSHAを返さないため、公開bundleのSHA一致は未確認と記録し、次のUATで実表示差分を確認する。
 5. 重要ページ（Home/Discord Join/Minecraft Join/Rules/Support）の匿名表示と検索・モバイルの回帰を確認。
 
 ### ロールバック・インシデント
