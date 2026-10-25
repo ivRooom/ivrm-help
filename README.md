@@ -14,6 +14,8 @@
 
 ## 開発
 
+Astroの2026-10時点の最小要件に合わせ、Node.js **22.23.4以上**を使用します。CI・GitHub Pagesのビルドも22.23.4へ固定しています（旧 `22` 指定では22.23.3が選ばれ、Astro Checkが失敗したため）。
+
 ```bash
 npm install
 npm run dev
