@@ -28,11 +28,13 @@ npm run build
 
 ## 記事の追加
 
-記事は`src/content/docs/`配下へMarkdownまたはMDX形式で追加します。
+記事は`src/content/docs/`配下へMarkdownまたはMDX形式で追加します。公開用日本語/英語記事と、リポジトリ内の内部運用/設計資料は区別します。
+
+仕様・更新審査・画面/業務フロー・運用・テスト/受入については[Help Center システム設計・運用文書](docs/system-design.md)と[公開品質/運用Runbook](docs/content-runbook.md)を参照してください。
 
 ## デプロイ
 
-`main`ブランチへのpushで`.github/workflows/deploy.yml`が実行され、GitHub Pagesへ公開されます。
+`main`ブランチへのpushで`.github/workflows/deploy.yml`が実行され、GitHub Pagesへ公開されます。**ドキュメントだけのmain更新でも本番Pagesデプロイを起動**するため、PRレビュー/チェック結果/公開タイミングを確認してからマージします。
 
 GitHubの`Settings > Pages`でSourceを`GitHub Actions`に設定してください。
 
