@@ -28,8 +28,11 @@ flowchart LR
   subgraph Author["信頼境界 A: Developer / GitHub"]
     PR["PR + content review"]
     CI["Content/Link/A11y/Build checks"]
-    Actions["GitHub Actions Deploy"]
-    PR --> CI --> Actions
+    Merge["承認後mainへmerge"]
+    Actions["GitHub Actions Deploy (on push main)"]
+    PR --> CI
+    CI -. "人間のレビュー/合格判定後" .-> Merge
+    Merge -->|"push event (CIのneedsには未依存)"| Actions
   end
   subgraph Pages["信頼境界 B: Public GitHub Pages"]
     Assets["Static HTML / CSS / JS / Search index"]
